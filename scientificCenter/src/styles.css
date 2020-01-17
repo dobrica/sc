@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.btn-m2 {
+    margin: 2px auto;
+}
+
+.btn-p10 {
+    padding-left: 100px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
+}
+
+.form-control-checkbox {
+    width: 10%;
+    height: 1.6em;
+    margin: 0.4rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }

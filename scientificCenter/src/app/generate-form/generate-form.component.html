@@ -1,0 +1,48 @@
+<div>
+    <div class="container" *ngIf="!success">
+        <br />
+        <p style="font-weight: 700; font-size: 15px;">Please fill in a {{title}} form:</p>
+        <hr>
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
+            <div *ngFor="let field of formFields">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id={{field.id}}>{{field.label}}</span>
+                    </div>
+                    <input class="form-control" type="text" name={{field.id}} ngModel
+                        *ngIf="field.type.name=='string' && field.id!='password'">
+                    <input class="form-control" type="password" name={{field.id}} ngModel
+                        *ngIf="field.type.name=='string' && field.id=='password'">
+                    <input class="form-control-checkbox" type="checkbox" name={{field.id}} ngModel
+                        *ngIf="field.type.name=='boolean'">
+                    <input class="form-control" type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
+                    <select class="form-control" name="{{field.id}}" ngModel *ngIf="field.type.name=='enum'">
+                        <option *ngFor="let val of enumValues" value={{val}}>
+                            {{field.type.values[val]}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <input style="float: right;" class="btn btn-primary btn-m2" type="submit">
+        </form>
+
+        <!-- <button style="visibility: hidden;" class="btn btn-primary btn-m2" (click)="getTasks()">Get tasks</button> -->
+    </div>
+    <table>
+        <tr *ngFor="let task of tasks">
+            <!-- <td>{{task.name}}</td>
+            <td>{{task.assignee}}</td>
+            <td><button (click)="claim(task.id)">Claim</button></td>
+            <td><button (click)="complete(task.id)">Complete</button></td> -->
+            <td><button class="btn btn-primary btn-m2" (click)="showTask(task.id)">Show next task</button></td>
+        </tr>
+    </table>
+    <div class="row" *ngIf="success">
+        <div class="col-xs-12">
+            <p class="alert alert-success">
+                <strong>A verification link has been sent to your email account!</strong>
+            </p>
+        </div>
+    </div>
+</div>

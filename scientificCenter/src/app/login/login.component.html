@@ -1,0 +1,26 @@
+<div class="container">
+    <br />
+    <p style="font-weight: 700; font-size: 15px;">Login</p>
+    <hr>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                <label class="input-group-text" for="username">Username</label>
+            </div>
+            <input class="form-control" type="text" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+            <div *ngIf="f.submitted && !username.valid">Username is required</div>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                <label class="input-group-text" for="password">Password</label>
+            </div>
+            <input class="form-control" type="password" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid">Password is required</div>
+        </div>
+
+        <hr>
+        <div>
+            <button style="float: right;" class="btn btn-primary btn-m2" [disabled]="loading">Login</button>
+        </div>
+    </form>
+</div>
