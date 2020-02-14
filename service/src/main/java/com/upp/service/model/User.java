@@ -5,14 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
 
+    private String id;
     private String title;
     private String fistname;
     private String lastname;
@@ -24,5 +26,14 @@ public class User {
     private List<String> scientificFields;
     private Boolean isReviewer;
     private Boolean isEditor;
+
+    public User(String id, String email, String username, String password, Boolean isReviewer, Boolean isEditor) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isReviewer = isReviewer;
+        this.isEditor = isEditor;
+    }
 
 }
