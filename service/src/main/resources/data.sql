@@ -23,24 +23,27 @@ DROP TABLE USER_ENTITY_SCIENTIFIC_FIELDS;
 DROP TABLE USER;
 
 CREATE TABLE PUBLIC.USER_ENTITY_SCIENTIFIC_FIELDS
-(USER_ID VARCHAR NOT NULL, SCIENTIFIC_FIELDS VARCHAR NOT NULL);
+(USER_ENTITY_ID VARCHAR NOT NULL, SCIENTIFIC_FIELDS VARCHAR NOT NULL);
 
 CREATE TABLE PUBLIC.USER
 (ID VARCHAR NOT NULL, EMAIL VARCHAR, USERNAME VARCHAR, PASSWORD VARCHAR, IS_REVIEWER BOOLEAN, IS_EDITOR BOOLEAN,
-FIRSTNAME VARCHAR, LASTNAME VARCHAR, TITLE VARCHAR, CITY VARCHAR, STATE VARCHAR);
+FIRSTNAME VARCHAR, LASTNAME VARCHAR, TITLE VARCHAR, CITY VARCHAR, STATE VARCHAR, SUBSCRIPTION_STATUS BOOLEAN);
 
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m123', 'magazine1', true, 'perica');
+values ('m123', 'magazine123', true, 'perica');
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m124', 'magazine2', false, 'zika');
+values ('m124', 'magazine234', false, 'zika');
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m125', 'magazine3', true, 'djordje');
+values ('m125', 'magazine345', true, 'djordje');
 
-insert into user(id, email, username, password, is_reviewer, is_editor)
-values ('u123', 'dobrica21@gmail.com', 'perica', '123', true, true);
-insert into user(id, email, username, password, is_reviewer, is_editor)
-values ('u124', 'dobrica21@gmail.com', 'zika', '123', true, true);
-insert into user(id, email, username, password, is_reviewer, is_editor)
-values ('u125', 'dobrica21@gmail.com', 'djordje', '123', true, true);
-insert into user(id, email, username, password, is_reviewer, is_editor)
-values ('u126', 'dobrica21@gmail.com', 'dobrica', '123', true, true);
+insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
+values ('u123', '', 'perica', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
+insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
+values ('u124', '', 'zika', '123', true, true, false);
+insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
+values ('u125', '', 'djordje', '123', true, true, false);
+insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
+values ('u126', '', 'dobrica', '123', true, true, false);
+
+insert into user_entity_scientific_fields(USER_ENTITY_ID, scientific_fields)
+values ('u123', '1,2,3')

@@ -24,7 +24,7 @@ public class Magazine implements Serializable {
     // OPEN-ACCESS: Autor of scientific paper pays subscription to magazine
     // NOT OPEN-ACCESS: Reader of scientific paper pays subscription to magazine
     private Boolean isOpenAccess;
-    private Float subscriptionFeeAmount;
+    private int subscriptionFeeAmount;
     private String status; //ACTIVE, INACTIVE
 
     public Magazine (String issn, String title, Boolean isOpenAccess, String mainEditor) {

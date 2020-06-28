@@ -21,24 +21,15 @@ public class CheckReviewersHandler implements TaskListener {
 
     @Override
     public void notify(DelegateTask delegateTask) {
-        var recezent1 = delegateTask.getVariable("reviewer1");
-        var recezent2 = delegateTask.getVariable("reviewer2");
-        var brRecezenata = 0;
-
-        if (!recezent1.equals("")) {
-            brRecezenata++;
+        ArrayList<User> reviewers = (ArrayList<User>) delegateTask.getVariable("reviewers");
+        if (reviewers == null) {
+            reviewers = new ArrayList<>();
         }
 
-        if (!recezent2.equals("")) {
-            brRecezenata++;
-        }
-
-        delegateTask.setVariable("brRecezenata", brRecezenata);
-        var reviewer1 = userDBService.findUserByUsername(recezent1.toString());
-        var reviewer2 = userDBService.findUserByUsername(recezent2.toString());
-        ArrayList<User> reviewers = new ArrayList<>();
-        reviewers.add(reviewer1);
-        reviewers.add(reviewer2);
+        String reviewerUsername = (String) delegateTask.getVariable("reviewer");
+        User reviewer = userDBService.findUserByUsername(reviewerUsername);
+        reviewers.add(reviewer);
         delegateTask.setVariable("reviewers", reviewers);
+        delegateTask.setVariable("reviewersNumber", reviewers.size());
     }
 }

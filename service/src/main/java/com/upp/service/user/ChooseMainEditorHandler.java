@@ -36,7 +36,8 @@ public class ChooseMainEditorHandler implements JavaDelegate {
         User mainEditor = userDBService.findUserByUsername(magazine.getMainEditor());
         //TODO: send mail, get logged in autor email mail 1, main editor mail 2
         delegateExecution.setVariable("autorEmail", "dobrica21@gmail.com");
-        delegateExecution.setVariable("mainEditorEmail", mainEditor.getEmail());
+        delegateExecution.setVariable("mainEditorEmail","dobrica21@gmail.com");
+//        delegateExecution.setVariable("mainEditorEmail", mainEditor.getEmail());
     }
 
     public List<User> getFreeEditors() {

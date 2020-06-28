@@ -1,5 +1,5 @@
 <div>
-    <div class="container" *ngIf="!success">
+    <div *ngIf="!success">
         <br />
         <p style="font-weight: 700; font-size: 15px;">Please fill in a {{title}} form:</p>
         <hr>
@@ -9,12 +9,9 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id={{field.id}}>{{field.label}}</span>
                     </div>
-                    <input class="form-control" type="text" name={{field.id}} ngModel
-                        *ngIf="field.type.name=='string' && field.id!='password'">
-                    <input class="form-control" type="password" name={{field.id}} ngModel
-                        *ngIf="field.type.name=='string' && field.id=='password'">
-                    <input class="form-control-checkbox" type="checkbox" name={{field.id}} ngModel
-                        *ngIf="field.type.name=='boolean'">
+                    <input class="form-control" type="text" name={{field.id}} ngModel *ngIf="field.type.name=='string' && field.id!='password'">
+                    <input class="form-control" type="password" name={{field.id}} ngModel *ngIf="field.type.name=='string' && field.id=='password'">
+                    <input class="form-control-checkbox" type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
                     <input class="form-control" type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
                     <select class="form-control" name="{{field.id}}" ngModel *ngIf="field.type.name=='enum'">
                         <option *ngFor="let val of enumValues" value={{val}}>

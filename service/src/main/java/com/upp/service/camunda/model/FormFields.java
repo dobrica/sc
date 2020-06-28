@@ -12,6 +12,7 @@ import java.util.List;
 public class FormFields {
 
 	String taskId;
+	String taskName;
 	String processInstanceId;
 	List<FormField> formFields;
 

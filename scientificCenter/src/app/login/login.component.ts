@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +14,10 @@ import { HttpClient } from '@angular/common/http';
 
 export class LoginComponent implements OnInit {
   model: any = {};
+  loggedUser: any;
 
   constructor(
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private client: HttpClient
@@ -24,20 +28,18 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    let url = 'http://localhost:8080/login';
-    let result = this.client.post<Observable<boolean>>(url, {
+    let user = {
       username: this.model.username,
       password: this.model.password
-    }, {withCredentials: true}).subscribe(isValid => {
-      if (isValid) { 
-        sessionStorage.setItem(
-          'token', 
-          btoa(this.model.username + ':' + this.model.password)
-        ); 
-        this.router.navigate(['']); // redirect to greetpage with enabled functionalities
-      } else {
-        alert("Authentication failed.")
-      }
-    });
+    };
+
+    this.authService.login(user).subscribe(
+      (success) => {
+              this.router.navigate(['/']);
+              alert("success")
+           },
+      (error) => {
+        alert(error);
+      });
   }
 }

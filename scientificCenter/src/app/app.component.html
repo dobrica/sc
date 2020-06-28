@@ -1,30 +1,49 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-  <div>
-    <a href="/">
-      <img width="40" alt="Angular Logo"
-        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
-    </a>
-  </div>
-  <div style="text-align: center; width: 400px;">
-    <a href="/" style="color: white;">
-      <span style="font-size: 20px; vertical-align: middle;">{{title}}</span>
-    </a>
-  </div>
-  <div class="btn-group mr-2" role="group" aria-label="Register">
-    <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button"
-      class="btn btn-primary" (click)="redirect('register')">Register</button>
-  </div>
-  <div class="btn-group mr-2" role="group" aria-label="Login">
-    <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button"
-      class="btn btn-primary" (click)="redirect('login')">Login</button>
-  </div>
-  <div class="btn-group mr-2" role="group" aria-label="New magazine">
-    <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button"
-      class="btn btn-primary" (click)="redirect('magazine/create')">New magazine</button>
-  </div>
+    <div>
+        <a href="/">
+            <img width="40" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
+            />
+        </a>
+    </div>
+    <div style="text-align: center; width: 400px;">
+        <a href="/" style="color: white;">
+            <span style="font-size: 20px; vertical-align: middle;">{{title}}</span>
+        </a>
+    </div>
+    <div class="btn-group mr-2" role="group" aria-label="Registracija">
+        <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('register')">Registruj se</button>
+    </div>
+    <div class="btn-group mr-2" role="group" aria-label="Prijava">
+        <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('login')">Prijavi se</button>
+    </div>
+    <div class="btn-group mr-2" role="group" aria-label="Odjava">
+        <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('logout')">Odjavi se</button>
+    </div>
 </div>
 
-<div class="content" role="main">
-  <router-outlet></router-outlet>
+<div class="container" style="float: center;">
+    <div style="float: left; min-width: 200px;">
+        <div style="min-width: 180px;" class="btn-group btn-m2" role="group" aria-label="Novi casopis">
+            <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('magazine/create')">Novi casopis</button>
+        </div>
+        <div style="min-width: 180px;" class="btn-group btn-m2" role="group" aria-label="Dodaj naucni rad">
+            <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('form/v2/newProcess')">Dodaj naucni rad</button>
+        </div>
+    </div>
+    <div role="main" style="min-width: 600px;">
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div style="float: left; min-width: 500px;">
+        <label><p style="margin-left: 40px; justify-content: center; font-weight: 700; font-size: 15px;">Lista zadataka:</p></label>
+        <div style="overflow-y: scroll; max-height: 760px;">
+            <ul style="list-style: none;">
+                <li *ngFor="let val of tasks; index as i;" value={{val}}>
+                    <button class="btn btn-m2 btn-primary" style="min-width: 400px;" id="{{val.id}}" (click)='getTask($event)'><span style="float: left;">{{i+1}}.</span> {{val.name}}</button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

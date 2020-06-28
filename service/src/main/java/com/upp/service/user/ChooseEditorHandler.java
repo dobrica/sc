@@ -20,7 +20,9 @@ public class ChooseEditorHandler implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         User editor = userDBService.findUserById("u124"); //TODO: filter by scientific fields
-        delegateExecution.setVariable("editorEmail", editor.getEmail());
+        delegateExecution.setVariable("editorEmail", "dobrica21@gmail.com");
+        delegateExecution.setVariable("editor", "editorUsername");
+//        delegateExecution.setVariable("editorEmail", editor.getEmail());
     }
 
 }

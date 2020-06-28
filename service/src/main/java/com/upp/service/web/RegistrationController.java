@@ -67,7 +67,7 @@ public class RegistrationController {
             System.out.println(fp.getId() + fp.getType());
         }
 
-        return new FormFields(task.getId(), pi.getId(), properties);
+        return new FormFields(task.getId(), task.getName(), pi.getId(), properties);
     }
 
     @PostMapping(path = "/register/{taskId}", produces = "application/json")

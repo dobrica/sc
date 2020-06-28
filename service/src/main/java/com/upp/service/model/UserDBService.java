@@ -27,7 +27,8 @@ public class UserDBService implements IUserService {
                         u.getUsername(),
                         u.getPassword(),
                         u.getIsReviewer(),
-                        u.getIsEditor()))
+                        u.getIsEditor(),
+                        u.getSubscriptionStatus()))
                 .collect(Collectors.toList());
     }
 
@@ -39,7 +40,8 @@ public class UserDBService implements IUserService {
                 user.getUsername(),
                 user.getPassword(),
                 user.getIsReviewer(),
-                user.getIsEditor()));
+                user.getIsEditor(),
+                user.getSubscriptionStatus()));
     }
 
     @Override

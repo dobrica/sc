@@ -42,14 +42,17 @@ public class UserEntity {
     private Boolean isReviewer;
     @Column(name = "IS_EDITOR", nullable = false)
     private Boolean isEditor;
+    @Column(name = "SUBSCRIPTION_STATUS", nullable = false)
+    private Boolean subscriptionStatus;
 
-    public UserEntity(String id, String email, String username, String password, Boolean isReviewer, Boolean isEditor) {
+    public UserEntity(String id, String email, String username, String password, Boolean isReviewer, Boolean isEditor, Boolean subscriptionStatus) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
         this.isReviewer = isReviewer;
         this.isEditor = isEditor;
+        this.subscriptionStatus = subscriptionStatus;
     }
 
 }

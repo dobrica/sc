@@ -1,0 +1,33 @@
+<div>
+    <br />
+    <p style="font-weight: 700; font-size: 15px;">Da li su potrebne ispravke za naucni rad?</p>
+    <hr>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativateValidate>
+
+        <div *ngFor="let field of formFields">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for={{field.id}}> {{field.label}} </label>
+                </div>
+                <input class="form-control" [disabled]="true" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.defaultValue != null" [ngModel]=field.defaultValue>
+                <input class="form-control" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.defaultValue == null" [ngModel]=field.defaultValue>
+                <input class="checkbox" type="checkbox" name={{field.id}} *ngIf="field.type.name == 'boolean'" [ngModel]=field.defaultValue>
+                <select class="form-control" name={{field.id}} *ngIf="field.type.name=='enum' && field.id == 'correctionDuration'" ngModel>
+                    <option *ngFor="let val of timeOptions" value={{val}}>
+                        {{field.type.values[val]}}
+                    </option>
+                </select>
+                <select [disabled]="true" class="form-control" name={{field.id}} *ngIf="field.type.name=='enum' && field.id == 'checkCoauthors'" ngModel>
+                    <option [disabled]="true" *ngFor="let val of coauthors" value={{val}}>
+                        {{field.type.values[val]}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <br />
+        <div>
+            <button type="submit" style="float: right;" class="btn btn-primary btn-m2">Potvrdi</button>
+        </div>
+    </form>
+</div>

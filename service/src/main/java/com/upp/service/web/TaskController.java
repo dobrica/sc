@@ -51,8 +51,25 @@ public class TaskController {
         return new ResponseEntity(response,  HttpStatus.OK);
     }
 
+    @GetMapping(path = "/tasks", produces = "application/json")
+    public ResponseEntity<List<Task>> getTasks() {
+        List<Task> tasks = new ArrayList<>();
+        List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().active().list();
+        for (ProcessInstance p: processInstances) {
+            List<org.camunda.bpm.engine.task.Task> processTasks = taskService.createTaskQuery().processInstanceId(p.getId()).list();
+            for (org.camunda.bpm.engine.task.Task t: processTasks) {
+                tasks.add(new Task(t.getId(), t.getName(), t.getAssignee()));
+            }
+        }
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
+    }
+
     @GetMapping(path = "/task/{taskId}", produces = "application/json")
     public @ResponseBody FormFields getTask(@PathVariable String taskId) { //TODO: make it less complicated
+        if(taskId.equals("newProcess")){
+            return new FormFields(null, "newProcess", null, null);
+        }
+
         // list all running/unsuspended instances of the process
         List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
                 //.processDefinitionKey("RegistrationProcess") TODO: in order to optimize search add this
@@ -77,6 +94,6 @@ public class TaskController {
             System.out.println(fp.getId() + fp.getType());
         }
 
-        return new FormFields(task.getId(), processInstance.getId(), properties);
+        return new FormFields(task.getId(),task.getName(), processInstance.getId(), properties);
     }
 }

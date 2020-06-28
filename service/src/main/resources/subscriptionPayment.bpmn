@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0c0i3lr" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="subscriptionPayment" name="SubscriptionPayment" isExecutable="true">
+    <bpmn:endEvent id="EndEvent_06hkael">
+      <bpmn:incoming>SequenceFlow_0di0x5d</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="UserTask_1e2ns3p" name="Uplati clanarinu" camunda:assignee="${initiator}">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="subscriptionFee" label="Subscription fee" type="long" />
+        </camunda:formData>
+        <camunda:executionListener class="com.upp.service.payment.PaymentHandler" event="end" />
+        <camunda:executionListener class="com.upp.service.payment.PreparePaymentHandler" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0a4akvu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0di0x5d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_0x6bdyt">
+      <bpmn:outgoing>SequenceFlow_0a4akvu</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0di0x5d" sourceRef="UserTask_1e2ns3p" targetRef="EndEvent_06hkael" />
+    <bpmn:sequenceFlow id="SequenceFlow_0a4akvu" sourceRef="StartEvent_0x6bdyt" targetRef="UserTask_1e2ns3p" />
+    <bpmn:textAnnotation id="TextAnnotation_0pxqxse">
+      <bpmn:text>TODO: mock payment service</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1normgz" sourceRef="UserTask_1e2ns3p" targetRef="TextAnnotation_0pxqxse" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="subscriptionPayment">
+      <bpmndi:BPMNShape id="EndEvent_06hkael_di" bpmnElement="EndEvent_06hkael">
+        <dc:Bounds x="412" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0pxqxse_di" bpmnElement="TextAnnotation_0pxqxse">
+        <dc:Bounds x="350" y="80" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1e2ns3p_di" bpmnElement="UserTask_1e2ns3p">
+        <dc:Bounds x="250" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_0x6bdyt_di" bpmnElement="StartEvent_0x6bdyt">
+        <dc:Bounds x="160" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0di0x5d_di" bpmnElement="SequenceFlow_0di0x5d">
+        <di:waypoint x="350" y="200" />
+        <di:waypoint x="412" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1normgz_di" bpmnElement="Association_1normgz">
+        <di:waypoint x="342" y="161" />
+        <di:waypoint x="371" y="134" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0a4akvu_di" bpmnElement="SequenceFlow_0a4akvu">
+        <di:waypoint x="196" y="200" />
+        <di:waypoint x="250" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
