@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
 import { disableDebugTools } from '@angular/platform-browser';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,15 +13,16 @@ import { disableDebugTools } from '@angular/platform-browser';
 export class AppComponent implements OnInit {
   title = 'Naučni centar';
   tasks: any;
+  username: any;
 
-  constructor(private httpClient: HttpClient, private router: Router){}
+  constructor(private httpClient: HttpClient, private auth: AuthService, private router: Router){}
 
   redirect(state: string) {
     this.router.navigate(['./' + state]);
   }
 
   ngOnInit(){
-    this.tasks = []; 
+    this.tasks = [];
     this.httpClient.get('http://localhost:8080/tasks').subscribe(
       (response: any) => { 
         this.tasks = response;
@@ -30,6 +32,7 @@ export class AppComponent implements OnInit {
       },
       (error) => { alert(error.message); }
     );
+    this.username = this.auth.getCurrentUser(); debugger
   }
 
   getTask(event){
@@ -41,6 +44,10 @@ export class AppComponent implements OnInit {
 
     this.ngOnInit();
   });
+  }
+
+  logout(){
+    this.auth.logout(); 
   }
 
 }

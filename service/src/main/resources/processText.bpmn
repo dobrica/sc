@@ -88,7 +88,7 @@
       <bpmn:outgoing>SequenceFlow_0ps8fdk</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0vmioax</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sendTask id="Task_1kllma0" name="Slanje notifikacije o doradi autoru" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
+    <bpmn:sendTask id="Task_1kllma0" name="Slanje notifikacije autoru o doradi rada" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -126,7 +126,7 @@
       <bpmn:incoming>SequenceFlow_0iq24bf</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1a7jk8e</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sendTask id="Task_1d05ul7" name="Slanje notifikacije autoru, odbijanje rada" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
+    <bpmn:sendTask id="Task_1d05ul7" name="Slanje notifikacije autoru o odbijanju rada" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -149,7 +149,7 @@
       <bpmn:incoming>SequenceFlow_0ps8fdk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0r68sp1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sendTask id="Task_1ojein6" name="Slanje notifikacije uredniku " camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
+    <bpmn:sendTask id="Task_1ojein6" name="Slanje notifikacije uredniku o novom radu za recenziju" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -204,7 +204,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0vmioax" name="Rad se prihvata" sourceRef="Task_18dhjer" targetRef="Task_02x9kyf">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!needsCorrection &amp;&amp; !isRejected &amp;&amp; workAccepted}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sendTask id="Task_02x9kyf" name="Slanje notifikacije autoru, prihvatanje rada" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
+    <bpmn:sendTask id="Task_02x9kyf" name="Slanje notifikacije autoru o prihvatanju rada" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>

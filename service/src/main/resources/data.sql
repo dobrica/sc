@@ -39,7 +39,7 @@ values ('m125', 'magazine345', true, 'djordje');
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
 values ('u123', '', 'perica', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
-values ('u124', '', 'zika', '123', true, true, false);
+values ('u124', '', 'zika', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
 values ('u125', '', 'djordje', '123', true, true, false);
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)

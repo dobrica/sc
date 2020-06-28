@@ -11,23 +11,24 @@
             <span style="font-size: 20px; vertical-align: middle;">{{title}}</span>
         </a>
     </div>
-    <div class="btn-group mr-2" role="group" aria-label="Registracija">
+    <div class="btn-group mr-2" role="group" aria-label="Registracija" *ngIf="username == null">
         <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('register')">Registruj se</button>
     </div>
-    <div class="btn-group mr-2" role="group" aria-label="Prijava">
+    <div class="btn-group mr-2" role="group" aria-label="Prijava" *ngIf="username == null">
         <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('login')">Prijavi se</button>
     </div>
-    <div class="btn-group mr-2" role="group" aria-label="Odjava">
-        <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('logout')">Odjavi se</button>
+    <div class="btn-group mr-2" role="group" aria-label="Odjava" *ngIf="username != null">
+        <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="logout()">Odjavi se</button>
     </div>
+    <div *ngIf="username != null"><span>User: {{username}}</span></div>
 </div>
 
 <div class="container" style="float: center;">
     <div style="float: left; min-width: 200px;">
-        <div style="min-width: 180px;" class="btn-group btn-m2" role="group" aria-label="Novi casopis">
+        <div *ngIf="username != null" style="min-width: 180px;" class="btn-group btn-m2" role="group" aria-label="Novi casopis">
             <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('magazine/create')">Novi casopis</button>
         </div>
-        <div style="min-width: 180px;" class="btn-group btn-m2" role="group" aria-label="Dodaj naucni rad">
+        <div *ngIf="username != null" style="min-width: 180px;" class="btn-group btn-m2" role="group" aria-label="Dodaj naucni rad">
             <button style="color: white; background-color: #C62828; border: 2px solid #F44336;" type="button" class="btn btn-primary" (click)="redirect('form/v2/newProcess')">Dodaj naucni rad</button>
         </div>
     </div>
@@ -37,8 +38,8 @@
         </div>
     </div>
     <div style="float: left; min-width: 500px;">
-        <label><p style="margin-left: 40px; justify-content: center; font-weight: 700; font-size: 15px;">Lista zadataka:</p></label>
-        <div style="overflow-y: scroll; max-height: 760px;">
+        <label *ngIf="username != null"><p style="margin-left: 40px; justify-content: center; font-weight: 700; font-size: 15px;">Lista zadataka:</p></label>
+        <div *ngIf="username != null" style="overflow-y: scroll; max-height: 760px;">
             <ul style="list-style: none;">
                 <li *ngFor="let val of tasks; index as i;" value={{val}}>
                     <button class="btn btn-m2 btn-primary" style="min-width: 400px;" id="{{val.id}}" (click)='getTask($event)'><span style="float: left;">{{i+1}}.</span> {{val.name}}</button>

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth/auth.service';
+import { User } from '../types/user';
 
 @Component({
   selector: 'app-login',
@@ -24,20 +25,19 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    sessionStorage.setItem('token', '');
+    // sessionStorage.setItem('token', ''); 
   }
 
-  login() {
-    let user = {
-      username: this.model.username,
-      password: this.model.password
-    };
+  onSubmit() {
+    let user = new User();
+    user.username = this.model.username;
+    user.password = this.model.password;
 
     this.authService.login(user).subscribe(
       (success) => {
-              this.router.navigate(['/']);
-              alert("success")
-           },
+        this.router.navigate(['/']); debugger
+        alert("success");
+      },
       (error) => {
         alert(error);
       });
