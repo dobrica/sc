@@ -13,25 +13,40 @@
                 <!-- <input class="form-control" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.id != 'pdf'" class="form-control" ngModel> -->
                 <input class="form-control" type="text" name={{field.id}} *ngIf="field.type.name == 'long'" class="form-control" ngModel>
 
-                <input class="form-control" [disabled]="true" type="text" name={{field.id}} *ngIf="field.type.name == 'editorComment'" [ngModel]=field.defaultValue>
-                <input class="form-control" [disabled]="true" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.defaultValue != null && field.id != 'pdf'" [ngModel]=field.defaultValue>
+                <!-- <input class="form-control" [disabled]="true" type="text" name={{field.id}} *ngIf="field.type.name == 'editorComment'" [ngModel]=field.defaultValue> -->
+                <input class="form-control" [disabled]="true" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.defaultValue != null 
+                    && field.id != 'new_title' && field.id != 'new_apstract' && field.id != 'new_keywords' && field.id != 'new_pdf'" [ngModel]=field.defaultValue>
                 <input class="form-control" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.defaultValue == null && field.id != 'pdf'" [ngModel]=field.defaultValue>
+                <input class="form-control" type="text" name={{field.id}} *ngIf="field.defaultValue != null && field.id == 'new_title' 
+                || field.id == 'new_apstract' || field.id == 'new_keywords'" [ngModel]=field.defaultValue>
 
                 <input class="checkbox" type="checkbox" name={{field.id}} *ngIf="field.type.name == 'boolean'" [ngModel]=field.defaultValue>
                 <select class="form-control" name={{field.id}} *ngIf="field.type.name=='enum' && field.id == 'correctionDuration'" ngModel>
-                    <option *ngFor="let val of timeOptions" value={{val}}>
-                      {{field.type.values[val]}}
-                    </option>
+                  <option *ngFor="let val of timeOptions" value={{val}}>
+                    {{field.type.values[val]}}
+                  </option>
+                </select>
+
+                <select class="form-control" name={{field.id}} *ngIf="field.type.name=='enum' && field.id == 'reviewDuration'" ngModel>
+                  <option *ngFor="let val of timeOptions" value={{val}}>
+                    {{field.type.values[val]}}
+                  </option>
+                </select>
+
+                <select class="form-control" name={{field.id}} *ngIf="field.type.name=='enum' && field.id == 'recommendation'" ngModel>
+                  <option *ngFor="let val of reviewOptions" value={{val}}>
+                    {{field.type.values[val]}}
+                  </option>
                 </select>
 
                 <select [disabled]="true" class="form-control" name={{field.id}} *ngIf="field.type.name=='enum' && field.id == 'checkCoauthors'" ngModel>
                   <option [disabled]="true" *ngFor="let val of coauthors" value={{val}}>
-                      {{field.type.values[val]}}
+                    {{field.type.values[val]}}
                   </option>
-              </select>
+                </select>
 
-                <label class="form-control" *ngIf="field.id == 'pdf'"> {{selectedFileName}} </label>
-                <button class="btn btn-primary" type="button" (click)="fileInput.click()" *ngIf="field.id == 'pdf'">
+                <label class="form-control" *ngIf="field.id == 'pdf' || field.id == 'new_pdf'"> {{selectedFileName}} </label>
+                <button class="btn btn-primary" type="button" (click)="fileInput.click()" *ngIf="field.id == 'pdf' || field.id == 'new_pdf'">
                   <span>Dodaj rad</span>
                   <input #fileInput type="file" name="{{field.id}}" (change)="handleFileInput($event.target.files)" ngModel style="display:none;" />
                 </button>
@@ -49,10 +64,10 @@
                 </select>
 
                 <select class="form-control" name={{field.id}} *ngIf="field.id == 'magazine'" ngModel>
-                <option *ngFor="let val of magazines" value={{val}}>
-                  {{field.type.values[val]}}
-                </option>
-              </select>
+                  <option *ngFor="let val of magazines" value={{val}}>
+                    {{field.type.values[val]}}
+                  </option>
+                </select>
             </div>
         </div>
 

@@ -23,6 +23,7 @@ export class GenerateFormV2Component implements OnInit {
   fileToUpload: File;
   timeOptions: any;
   taskName: any;
+  reviewOptions: string[];
 
   constructor(private httpClient: HttpClient, private router: Router, private route: ActivatedRoute) { }
 
@@ -53,7 +54,16 @@ export class GenerateFormV2Component implements OnInit {
             url = 'http://localhost:8080/scientificPaper/'.concat(this.taskId);
             break;
           case "Izbor recenzenata":
-            url = 'http://localhost:8080/chooseReviewers/'.concat(this.taskId); debugger
+            url = 'http://localhost:8080/chooseReviewers/'.concat(this.taskId);
+            break;
+          case "Autorska dorada rada":
+            url = 'http://localhost:8080/corrections/'.concat(this.taskId);
+            break;
+          case "Kreiranje komisije":
+            url = 'http://localhost:8080/committee/'.concat(this.taskId);
+            break;
+          case "Recenzije":
+            url = 'http://localhost:8080/review/'.concat(this.taskId);
             break;
           case "newProcess":
             url = 'http://localhost:8080/scientificPaper';
@@ -69,13 +79,19 @@ export class GenerateFormV2Component implements OnInit {
                 this.magazines = Object.keys(field.type.values);
               }
               if (field.type.name == 'enum' && field.id == 'correctionDuration') {
-                this.timeOptions = Object.keys(field.type.values); 
+                this.timeOptions = Object.keys(field.type.values);
               }
-              if (field.type.name == 'enum' && field.id == 'reviewer') { 
-                this.reviewerOptions = Object.keys(field.type.values); debugger 
+              if (field.type.name == 'enum' && field.id == 'reviewDuration') {
+                this.timeOptions = Object.keys(field.type.values);
+              }
+              if (field.type.name == 'enum' && field.id == 'reviewer') {
+                this.reviewerOptions = Object.keys(field.type.values); 
               }
               if (field.type.name == 'enum') {
                 this.scientificFields = Object.keys(field.type.values);
+              }
+              if (field.type.name == 'enum' && field.id == 'recommendation') {
+                this.reviewOptions = Object.keys(field.type.values); 
               }
             });
           },
@@ -113,14 +129,26 @@ export class GenerateFormV2Component implements OnInit {
       case "Dodaj koautora":
         url = 'http://localhost:8080/coauthor/add/';
         break;
+      case "Autorska dorada rada":
+        url = 'http://localhost:8080/corrections/apply/';
+        break;
+      case "Kreiranje komisije":
+        url = 'http://localhost:8080/committee/create/';
+        break;
+      case "Izbor recenzenata":
+        url = 'http://localhost:8080/chooseReviewers/create/';
+        break;
+      case "Recenzije":
+        url = 'http://localhost:8080/review/create/';
+        break;
       case "Izaberi casopis":
       case "newProcess":
         url = 'http://localhost:8080/chooseMagazine/';
         break;
     }
-    url = url.concat(this.formFieldsDto.taskId); 
+    url = url.concat(this.formFieldsDto.taskId);
     this.httpClient.post(url, dto).subscribe(
-      (response: any) => { 
+      (response: any) => {
         window.location.reload();
       },
       (error) => {

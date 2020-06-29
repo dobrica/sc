@@ -179,6 +179,49 @@ public class MagazineController {
         return new ResponseEntity<>( new FormFields(task.getId(),task.getName(), processInstanceId, properties), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/chooseReviewers/create/{taskId}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Boolean> chooseReviewers(@RequestBody List<FormSubmission> chooseReviewers, @PathVariable("taskId") String taskId) {
+        HashMap<String, Object> map = Utils.mapListToDto(chooseReviewers);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/review/{taskId}")
+    public ResponseEntity<FormFields> review(@PathVariable("taskId") String taskId){
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        List<String> reviewOptions = new ArrayList<>();
+        reviewOptions.add("Predlazem da rad bude prihvacen!");
+        reviewOptions.add("Predlazem da rad bude odbijen!");
+        reviewOptions.add("Predlazem da rad bude prihvacen uz manje izmene!");
+        reviewOptions.add("Predlazem da rad bude prihvacen uz vece izmene!");
+        for(FormField field : properties){
+            if(field.getId().equals("recommendation")){
+                Map<String, String> enumType = ((EnumFormType) field.getType()).getValues();
+                enumType.clear();
+                for(String r: reviewOptions){
+                    enumType.put(r, r);
+                }
+                runtimeService.setVariable(processInstanceId,"reviewOptions", enumType);
+                break;
+            }
+        }
+        return new ResponseEntity<>( new FormFields(task.getId(),task.getName(), processInstanceId, properties), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/review/create/{taskId}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Boolean> review(@RequestBody List<FormSubmission> review, @PathVariable("taskId") String taskId) {
+        HashMap<String, Object> map = Utils.mapListToDto(review);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
     private HashMap<String, Object> mapListToDto(List<FormSubmission> list)
     {
         HashMap<String, Object> map = new HashMap<String, Object>();
