@@ -4,10 +4,13 @@ import com.upp.service.camunda.Utils;
 import com.upp.service.camunda.model.FormFields;
 import com.upp.service.camunda.model.FormSubmission;
 import com.upp.service.camunda.model.Task;
+import com.upp.service.model.ScientificPaper;
+import com.upp.service.model.ScientificPaperDBService;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
+import org.camunda.bpm.engine.impl.form.type.EnumFormType;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -31,6 +32,9 @@ public class TaskController {
 
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    ScientificPaperDBService scientificPaperDBService;
 
     @Autowired
     FormService formService;
@@ -86,11 +90,33 @@ public class TaskController {
         return new FormFields(task.getId(),task.getName(), processInstance.getId(), properties);
     }
 
-    @PostMapping(value = "/task/{taskId}/submit", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Boolean> submit(@RequestBody List<FormSubmission> paymentConfirmation, @PathVariable("taskId") String taskId){
-        HashMap<String, Object> map = Utils.mapListToDto(paymentConfirmation);
+    @PostMapping(value = "/task/{taskId}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<String> submit(@RequestBody List<FormSubmission> request, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(request);
         org.camunda.bpm.engine.task.Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String id = "";
+        if(task.getName().equals("Unesi podatke o naucnom radu")) {
+            id = UUID.randomUUID().toString();
+            ScientificPaper sp = new ScientificPaper();
+            sp.setId(id);
+            TaskFormData tfd = formService.getTaskFormData(task.getId());
+            for(FormSubmission f: request){
+                if(f.getFieldId().equals("title")){
+                    sp.setTitle(f.getFieldValue());
+                }
+                if(f.getFieldId().equals("keywords")){
+                    sp.setKeywords(f.getFieldValue());
+                }
+                sp.setPdf(null);
+                sp.setAbstrct("");
+                sp.setPdfName("");
+                sp.setFee(100);
+                sp.setMagazineId("m123");
+                sp.setScientificField("");
+            }
+            scientificPaperDBService.saveScientificPaper(sp);
+        }
         formService.submitTaskForm(taskId, map);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<String>(id, HttpStatus.OK);
     }
 }

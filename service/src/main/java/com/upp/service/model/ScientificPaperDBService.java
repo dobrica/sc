@@ -40,18 +40,16 @@ public class ScientificPaperDBService implements IScientificPaperService {
 
     @Override
     public void saveScientificPaper(ScientificPaper sp) {
-        scientificPaperRepository.save(
-                new ScientificPaperEntity(
-                        sp.getId(),
-                        sp.getTitle(),
-                        sp.getAbstrct(),
-                        sp.getKeywords(),
-                        sp.getFee(),
-                        sp.getPdfName(),
-                        sp.getPdf(),
-                        sp.getScientificField(),
-                        sp.getMagazineId(),
-                        sp.getCoauthors()));
+        scientificPaperRepository.save(new ScientificPaperEntity(
+                sp.getId(),
+                sp.getTitle(),
+                sp.getAbstrct(),
+                sp.getKeywords(),
+                sp.getFee(),
+                sp.getPdfName(),
+                sp.getPdf(),
+                sp.getScientificField(),
+                sp.getMagazineId()));
     }
 
     @Override

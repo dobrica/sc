@@ -120,7 +120,7 @@ export class GenerateFormV2Component implements OnInit {
 
   onSubmit(value, form) {
 
-    if (!this.validation.validate(this.formFieldsDto.formFields, form)) { debugger
+    if (!this.validation.validate(this.formFieldsDto.formFields, form)) { 
       return;
     }
 
@@ -128,16 +128,16 @@ export class GenerateFormV2Component implements OnInit {
     for (var property in value) {
       dto.push({ fieldId: property, fieldValue: value[property] });
     }
-    let url = "http://localhost:8080/task/".concat(this.formFieldsDto.taskId, "/submit");
-    this.httpClient.post(url, dto).subscribe(
+    let url = "http://localhost:8080/task/".concat(this.formFieldsDto.taskId);
+    this.httpClient.post(url, dto, {responseType: 'text'}).subscribe(
       (response: any) => {
+        let id = response; debugger
         
-        //TODO: get id from response
         if (this.fileToUpload != undefined && this.fileToUpload != null) {
           const formData: FormData = new FormData();
           formData.append('file', this.fileToUpload);
-          console.log(formData); debugger
-          this.httpClient.put('http://localhost:8080/scientificPaper/'.concat("sp123"), formData, {responseType: 'text'}).subscribe(); 
+          console.log(formData); 
+          this.httpClient.put('http://localhost:8080/scientificPaper/'.concat(id), formData, {responseType: 'text'}).subscribe(); 
         }
 
         window.location.reload();

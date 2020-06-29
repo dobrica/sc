@@ -18,7 +18,7 @@ import java.util.List;
 public class ScientificPaperEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
     private String id;
 
     @Column(name = "TITLE")
@@ -46,10 +46,20 @@ public class ScientificPaperEntity implements Serializable {
     @Column(name = "MAGAZINE_ID")
     private String magazineId;
 
-    @ElementCollection(targetClass=String.class)
+    @ElementCollection(targetClass = String.class)
     @Column(name = "coauthors")
     private List<String> coauthors;
-//
-//    @OneToMany(mappedBy = "scientificPaper", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<User> coauthors = new ArrayList<User>();
+
+    public ScientificPaperEntity(String id, String title, String abstrct, String keywords,
+                                 double fee, String pdfName, byte[] pdf, String scientificField, String magazineId) {
+        this.id = id;
+        this.title = title;
+        this.abstrct = abstrct;
+        this.keywords = keywords;
+        this.fee = fee;
+        this.pdfName = pdfName;
+        this.pdf = pdf;
+        this.scientificField = scientificField;
+        this.magazineId = magazineId;
+    }
 }
