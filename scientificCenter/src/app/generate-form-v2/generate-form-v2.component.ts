@@ -137,7 +137,7 @@ export class GenerateFormV2Component implements OnInit {
           const formData: FormData = new FormData();
           formData.append('file', this.fileToUpload);
           console.log(formData); debugger
-          this.httpClient.put('http://localhost:8080/scientificPaper/'.concat("123id"), formData, {responseType: 'text'}).subscribe(); 
+          this.httpClient.put('http://localhost:8080/scientificPaper/'.concat("sp123"), formData, {responseType: 'text'}).subscribe(); 
         }
 
         window.location.reload();

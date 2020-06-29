@@ -3,9 +3,7 @@ package com.upp.service.web;
 import com.upp.service.camunda.Utils;
 import com.upp.service.camunda.model.FormFields;
 import com.upp.service.camunda.model.FormSubmission;
-import com.upp.service.model.Magazine;
-import com.upp.service.model.MagazineDBService;
-import com.upp.service.model.User;
+import com.upp.service.model.*;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
@@ -28,6 +26,9 @@ public class ScientificPaperController {
 
     @Autowired
     private RuntimeService runtimeService;
+
+    @Autowired
+    ScientificPaperDBService scientificPaperDBService;
 
     @Autowired
     TaskService taskService;
@@ -204,7 +205,8 @@ public class ScientificPaperController {
 
     @PutMapping(value = "/scientificPaper/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> savePdf(@RequestParam("file") MultipartFile file , @PathVariable("id") String scientificPaperId){
-//        scientificPaperService.savePdf(scientificPaperId, file);
+        List<ScientificPaper> spl = scientificPaperDBService.findAllScientificPapers();
+        scientificPaperDBService.savePdf(scientificPaperId, file);
         return new ResponseEntity<>("Upload successful!", HttpStatus.OK);
     }
 
