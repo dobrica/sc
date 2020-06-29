@@ -128,38 +128,7 @@ export class GenerateFormV2Component implements OnInit {
     for (var property in value) {
       dto.push({ fieldId: property, fieldValue: value[property] });
     }
-    let url = "http://localhost:8080/";
-    switch (this.taskName) {
-      case "Unesi podatke o naucnom radu":
-        url = 'http://localhost:8080/paperDetails/create/';
-        break;
-      case "Zadatak urednika":
-        url = 'http://localhost:8080/editor/review/scientificPaper/';
-        break;
-      case "Dodaj koautora":
-        url = 'http://localhost:8080/coauthor/add/';
-        break;
-      case "Autorska dorada rada":
-        url = 'http://localhost:8080/corrections/apply/';
-        break;
-      case "Kreiranje komisije":
-        url = 'http://localhost:8080/committee/create/';
-        break;
-      case "Izbor recenzenata":
-        url = 'http://localhost:8080/chooseReviewers/create/';
-        break;
-      case "Recenzije":
-        url = 'http://localhost:8080/review/create/';
-        break;
-      case "Uplati clanarinu":
-        url = 'http://localhost:8080/payment/create/';
-        break;
-      case "Izaberi casopis":
-      case "newProcess":
-        url = 'http://localhost:8080/chooseMagazine/';
-        break;
-    }
-    url = url.concat(this.formFieldsDto.taskId);
+    let url = "http://localhost:8080/task/".concat(this.formFieldsDto.taskId, "/submit");
     this.httpClient.post(url, dto).subscribe(
       (response: any) => {
         window.location.reload();
@@ -182,10 +151,6 @@ export class GenerateFormV2Component implements OnInit {
     console.log('URL ' + this.fileUrl);
     console.log('file ' + this.fileToUpload);
     console.log('filename ' + this.fileToUpload.name);
-  }
-
-  color(){
-    return "{'background-color' : red;";
   }
 
 }

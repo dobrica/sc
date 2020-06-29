@@ -85,4 +85,12 @@ public class TaskController {
 
         return new FormFields(task.getId(),task.getName(), processInstance.getId(), properties);
     }
+
+    @PostMapping(value = "/task/{taskId}/submit", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Boolean> submit(@RequestBody List<FormSubmission> paymentConfirmation, @PathVariable("taskId") String taskId){
+        HashMap<String, Object> map = Utils.mapListToDto(paymentConfirmation);
+        org.camunda.bpm.engine.task.Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }
