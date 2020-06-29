@@ -131,6 +131,15 @@ export class GenerateFormV2Component implements OnInit {
     let url = "http://localhost:8080/task/".concat(this.formFieldsDto.taskId, "/submit");
     this.httpClient.post(url, dto).subscribe(
       (response: any) => {
+        
+        //TODO: get id from response
+        if (this.fileToUpload != undefined && this.fileToUpload != null) {
+          const formData: FormData = new FormData();
+          formData.append('file', this.fileToUpload);
+          console.log(formData); debugger
+          this.httpClient.put('http://localhost:8080/scientificPaper/'.concat("123id"), formData, {responseType: 'text'}).subscribe(); 
+        }
+
         window.location.reload();
       },
       (error) => {

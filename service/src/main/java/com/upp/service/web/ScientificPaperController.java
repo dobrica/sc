@@ -16,8 +16,10 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -198,6 +200,12 @@ public class ScientificPaperController {
 
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/scientificPaper/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> savePdf(@RequestParam("file") MultipartFile file , @PathVariable("id") String scientificPaperId){
+//        scientificPaperService.savePdf(scientificPaperId, file);
+        return new ResponseEntity<>("Upload successful!", HttpStatus.OK);
     }
 
 }
