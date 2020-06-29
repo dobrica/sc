@@ -30,22 +30,23 @@ public class MockPaymentController {
     @Autowired
     private RuntimeService runtimeService;
 
-    @GetMapping(value = "/payment/{pid}", produces = "application/json")
-    public ResponseEntity<FormFields> getForm(@PathVariable("pid") String pid){
-        ProcessInstance subprocess = runtimeService.createProcessInstanceQuery().superProcessInstanceId(pid).singleResult();
-        Task task = taskService.createTaskQuery().processInstanceId(subprocess.getId()).list().get(0);
+    @GetMapping(value = "/payment/{taskId}", produces = "application/json")
+    public ResponseEntity<FormFields> getForm(@PathVariable("taskId") String taskId){
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        ProcessInstance subprocess = runtimeService.createProcessInstanceQuery().superProcessInstanceId(processInstanceId).singleResult();
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-        return new ResponseEntity<>(new FormFields(task.getId(), task.getName(), pid, properties), HttpStatus.OK);
+        return new ResponseEntity<>(new FormFields(task.getId(), task.getName(), processInstanceId, properties), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/payment/create/{taskId}/{processId}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Boolean> payment(@RequestBody List<FormSubmission> paymentConfirmation, @PathVariable("taskId") String taskId, @PathVariable("processId") String processId){
+    @PostMapping(value = "/payment/create/{taskId}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Boolean> payment(@RequestBody List<FormSubmission> paymentConfirmation, @PathVariable("taskId") String taskId){
         HashMap<String, Object> map = Utils.mapListToDto(paymentConfirmation);
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
         Boolean paymentStatus = true; // get from req. is true or false paymentConfirmation
-        runtimeService.setVariable(processId,"isPaymentSuccessful", paymentStatus);
+        runtimeService.setVariable(processInstanceId,"isPaymentSuccessful", paymentStatus);
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

@@ -7,7 +7,11 @@
     <bpmn:userTask id="UserTask_1e2ns3p" name="Uplati clanarinu" camunda:assignee="${username}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="subscriptionFee" label="Subscription fee" type="long" />
+          <camunda:formField id="subscriptionFee" label="Iznos pretplate" type="long">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
         <camunda:executionListener class="com.upp.service.payment.PaymentHandler" event="end" />
         <camunda:executionListener class="com.upp.service.payment.PreparePaymentHandler" event="start" />

@@ -1,6 +1,8 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params, RouterModule } from '@angular/router';
+import { ValidationService } from '../services/validation/validation.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-generate-form-v2',
@@ -24,8 +26,13 @@ export class GenerateFormV2Component implements OnInit {
   timeOptions: any;
   taskName: any;
   reviewOptions: string[];
+  magazine: any;
 
-  constructor(private httpClient: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private validation: ValidationService) { }
 
   ngOnInit() {
 
@@ -39,7 +46,7 @@ export class GenerateFormV2Component implements OnInit {
       (response: any) => {
         this.taskName = response.taskName;
 
-        let url = "";
+        let url = ""; 
         switch (this.taskName) {
           case "Unesi podatke o naucnom radu":
             url = 'http://localhost:8080/paperDetails/'.concat(this.taskId);
@@ -65,13 +72,16 @@ export class GenerateFormV2Component implements OnInit {
           case "Recenzije":
             url = 'http://localhost:8080/review/'.concat(this.taskId);
             break;
+          case "Uplati clanarinu":
+            url = 'http://localhost:8080/payment/'.concat(this.taskId); 
+            break;
           case "newProcess":
             url = 'http://localhost:8080/scientificPaper';
             break;
         }
 
         this.httpClient.get(url).subscribe(
-          (response: any) => {
+          (response: any) => { 
             this.formFieldsDto = response;
             this.formFields = response.formFields;
             this.formFields.forEach((field) => {
@@ -85,13 +95,13 @@ export class GenerateFormV2Component implements OnInit {
                 this.timeOptions = Object.keys(field.type.values);
               }
               if (field.type.name == 'enum' && field.id == 'reviewer') {
-                this.reviewerOptions = Object.keys(field.type.values); 
+                this.reviewerOptions = Object.keys(field.type.values);
               }
               if (field.type.name == 'enum') {
                 this.scientificFields = Object.keys(field.type.values);
               }
               if (field.type.name == 'enum' && field.id == 'recommendation') {
-                this.reviewOptions = Object.keys(field.type.values); 
+                this.reviewOptions = Object.keys(field.type.values);
               }
             });
           },
@@ -110,9 +120,9 @@ export class GenerateFormV2Component implements OnInit {
 
   onSubmit(value, form) {
 
-    // if (!this.validationService.validate(this.formFieldsDto.formFields, form)) {
-    //   return;
-    // }
+    if (!this.validation.validate(this.formFieldsDto.formFields, form)) { debugger
+      return;
+    }
 
     let dto = new Array();
     for (var property in value) {
@@ -140,6 +150,9 @@ export class GenerateFormV2Component implements OnInit {
         break;
       case "Recenzije":
         url = 'http://localhost:8080/review/create/';
+        break;
+      case "Uplati clanarinu":
+        url = 'http://localhost:8080/payment/create/';
         break;
       case "Izaberi casopis":
       case "newProcess":
@@ -169,6 +182,10 @@ export class GenerateFormV2Component implements OnInit {
     console.log('URL ' + this.fileUrl);
     console.log('file ' + this.fileToUpload);
     console.log('filename ' + this.fileToUpload.name);
+  }
+
+  color(){
+    return "{'background-color' : red;";
   }
 
 }

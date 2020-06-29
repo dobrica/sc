@@ -11,7 +11,6 @@ import { AddMagazineStaffComponent } from './add-magazine-staff/add-magazine-sta
 import { GenerateFormComponent } from './generate-form/generate-form.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 import { LoginComponent } from './login/login.component';
-import { SubscriptionPaymentComponent } from './subscription-payment/subscription-payment.component';
 
 import { AuthService } from './services/auth/auth.service';
 import { JwtUtilsService } from './services/jwt-utils/jwt-utils.service';
@@ -28,7 +27,6 @@ import { GenerateFormV2Component } from './generate-form-v2/generate-form-v2.com
     GenerateFormComponent,
     RegistrationSuccessComponent,
     LoginComponent,
-    SubscriptionPaymentComponent,
     GenerateFormV2Component
   ],
   imports: [

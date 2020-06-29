@@ -11,7 +11,9 @@
                 </div>
 
                 <!-- <input class="form-control" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.id != 'pdf'" class="form-control" ngModel> -->
-                <input class="form-control" type="text" name={{field.id}} *ngIf="field.type.name == 'long'" class="form-control" ngModel>
+                <input class="form-control" type="number" min="1" name={{field.id}} *ngIf="field.type.name == 'long' && field.id != 'reviewersNumber' && field.id != 'subscriptionFee'" class="form-control" ngModel>
+                <input class="form-control" type="number" min="2" name={{field.id}} *ngIf="field.type.name == 'long' && field.id == 'reviewersNumber'" class="form-control" ngModel>
+                <input class="form-control" type="number" min="100" name={{field.id}} *ngIf="field.type.name == 'long' && field.id == 'subscriptionFee'" class="form-control" ngModel>
 
                 <!-- <input class="form-control" [disabled]="true" type="text" name={{field.id}} *ngIf="field.type.name == 'editorComment'" [ngModel]=field.defaultValue> -->
                 <input class="form-control" [disabled]="true" type="text" name={{field.id}} *ngIf="field.type.name == 'string' && field.defaultValue != null 
@@ -64,16 +66,16 @@
                 </select>
 
                 <select class="form-control" name={{field.id}} *ngIf="field.id == 'magazine'" ngModel>
-                  <option *ngFor="let val of magazines" value={{val}}>
+                <option *ngFor=" let val of magazines " value={{val}}>
                     {{field.type.values[val]}}
-                  </option>
+                </option>
                 </select>
             </div>
         </div>
 
         <br />
         <div>
-            <button type="submit" style="float: right;" class="btn btn-primary-green btn-m2">Potvrdi</button>
+            <button type="submit " style="float: right; " class="btn btn-primary-green btn-m2 ">Potvrdi</button>
         </div>
     </form>
 </div>

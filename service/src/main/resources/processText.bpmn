@@ -9,7 +9,9 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="magazine" label="Izaberite časopis" type="enum">
-            <camunda:value id="required" />
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
           </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
@@ -72,10 +74,18 @@
           <camunda:formField id="checkPdf" label="PDF" type="string" defaultValue="${pdf}" />
           <camunda:formField id="needsCorrection" label="Posalji rad na korekciju" type="boolean" defaultValue="false" />
           <camunda:formField id="isRejected" label="Odbij rad" type="boolean" defaultValue="false" />
-          <camunda:formField id="acceptedForReview" label="Prihvati rad na recenziju" type="boolean" defaultValue="true" />
+          <camunda:formField id="acceptedForReview" label="Prihvati rad na recenziju" type="boolean" defaultValue="false" />
           <camunda:formField id="workAccepted" label="Prihvati rad" type="boolean" defaultValue="false" />
-          <camunda:formField id="correctionDuration" label="Vreme za ispravku" type="enum" />
-          <camunda:formField id="crDescription" label="Komentar" type="string" />
+          <camunda:formField id="correctionDuration" label="Vreme za ispravku" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="crDescription" label="Komentar" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
         <camunda:executionListener class="com.upp.service.user.MainEditorTaskHandler" event="end" />
       </bpmn:extensionElements>
@@ -164,7 +174,11 @@
     <bpmn:userTask id="Task_03a07kd" name="Izbor recenzenata" camunda:assignee="${editor}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="reviewer" label="Recenzent" type="enum" />
+          <camunda:formField id="reviewer" label="Recenzent" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
         <camunda:taskListener class="com.upp.service.user.CheckReviewersHandler" event="complete" />
       </bpmn:extensionElements>
@@ -178,14 +192,21 @@
     <bpmn:userTask id="Task_0trn0gc" name="Recenzije" camunda:assignee="${r.username}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="commentForAuthor" label="Komentar" type="string" />
-          <camunda:formField id="recommendation" label="Preporuka" type="enum">
-            <camunda:value id="accept" name="Predlazem da rad bude prihvacen!" />
-            <camunda:value id="rejected" name="Predlazem da rad bude odbijen!" />
-            <camunda:value id="acceptWithMinorChanges" name="Predlazem da rad bude prihvacen uz manje izmene!" />
-            <camunda:value id="acceptWithMajorChanges" name="Predlazem da rad bude prihvacen uz vece izmene!" />
+          <camunda:formField id="commentForAuthor" label="Komentar" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="commentForEditors" label="Komentar za urednika" type="string" />
+          <camunda:formField id="recommendation" label="Preporuka" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="commentForEditors" label="Komentar za urednika" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0tvot5u</bpmn:incoming>
@@ -221,12 +242,36 @@
     <bpmn:userTask id="Task_0vcnday" name="Unesi podatke o naucnom radu" camunda:assignee="${username}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="title" label="Naslov" type="string" />
-          <camunda:formField id="apstract" label="Sazetak" type="string" />
-          <camunda:formField id="scientificField" label="Naucna oblast" type="enum" />
-          <camunda:formField id="keywords" label="Kljucne reci" type="string" />
-          <camunda:formField id="coauthorsNumber" label="Broj koautora" type="long" />
-          <camunda:formField id="pdf" label="PDF" type="string" />
+          <camunda:formField id="title" label="Naslov" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="apstract" label="Sazetak" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="scientificField" label="Naucna oblast" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="keywords" label="Kljucne reci" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="coauthorsNumber" label="Broj koautora" type="long">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="pdf" label="PDF" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
         <camunda:executionListener class="com.upp.service.scientificpaper.ParseKeywordsHandler" event="end" />
       </bpmn:extensionElements>
@@ -264,11 +309,31 @@
     <bpmn:userTask id="Task_0qwr0n3" name="Dodaj koautora" camunda:assignee="${username}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="ca_name" label="Ime" type="string" />
-          <camunda:formField id="ca_surname" label="Prezime" type="string" />
-          <camunda:formField id="ca_email" label="Email" type="string" />
-          <camunda:formField id="ca_city" label="Grad" type="string" />
-          <camunda:formField id="ca_state" label="Drzava" type="string" />
+          <camunda:formField id="ca_name" label="Ime" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ca_surname" label="Prezime" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ca_email" label="Email" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ca_city" label="Grad" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ca_state" label="Drzava" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
         <camunda:executionListener class="com.upp.service.user.AddCoauthorHandler" event="end" />
       </bpmn:extensionElements>
@@ -302,8 +367,16 @@
     <bpmn:userTask id="Task_0h86m7t" name="Kreiranje komisije" camunda:assignee="${editor}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="reviewersNumber" label="Broj recenzenata" type="long" />
-          <camunda:formField id="reviewDuration" label="Vreme za recenziju" type="enum" />
+          <camunda:formField id="reviewersNumber" label="Broj recenzenata" type="long">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="reviewDuration" label="Vreme za recenziju" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1njr4lk</bpmn:incoming>
@@ -353,7 +426,7 @@
       <bpmndi:BPMNEdge id="SequenceFlow_10lmywx_di" bpmnElement="SequenceFlow_10lmywx">
         <di:waypoint x="510" y="260" />
         <di:waypoint x="620" y="260" />
-        <di:waypoint x="680" y="310" />
+        <di:waypoint x="680" y="311" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="529" y="263" width="81" height="27" />
         </bpmndi:BPMNLabel>
@@ -363,7 +436,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0ijoiwd_di" bpmnElement="SequenceFlow_0ijoiwd">
         <di:waypoint x="730" y="230" />
-        <di:waypoint x="730" y="280" />
+        <di:waypoint x="730" y="281" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="738" y="233" width="83" height="14" />
         </bpmndi:BPMNLabel>
@@ -463,7 +536,7 @@
         <di:waypoint x="730" y="1270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="UserTask_010ebir_di" bpmnElement="Task_0vcnday">
-        <dc:Bounds x="680" y="280" width="100" height="80" />
+        <dc:Bounds x="680" y="281" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_03up27h_di" bpmnElement="SequenceFlow_03up27h">
         <di:waypoint x="730" y="810" />
@@ -507,15 +580,15 @@
         <di:waypoint x="410" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_00klzxm_di" bpmnElement="SequenceFlow_00klzxm">
-        <di:waypoint x="730" y="360" />
-        <di:waypoint x="730" y="400" />
+        <di:waypoint x="730" y="361" />
+        <di:waypoint x="730" y="402" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0buv624_di" bpmnElement="SequenceFlow_0buv624">
-        <di:waypoint x="730" y="480" />
+        <di:waypoint x="730" y="482" />
         <di:waypoint x="730" y="513" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="UserTask_1ugrdxm_di" bpmnElement="Task_0qwr0n3">
-        <dc:Bounds x="680" y="400" width="100" height="80" />
+        <dc:Bounds x="680" y="402" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_15nsii7_di" bpmnElement="Task_02cltwg">
         <dc:Bounds x="910" y="150" width="100" height="80" />
