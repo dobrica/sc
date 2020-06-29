@@ -27,6 +27,7 @@ export class GenerateFormV2Component implements OnInit {
   constructor(private httpClient: HttpClient, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+
     this.route.params.subscribe(
       (params: Params) => {
         this.taskId = params['taskId'];
@@ -85,16 +86,6 @@ export class GenerateFormV2Component implements OnInit {
       (error) => { alert(error.message); }
     );
 
-    // this.httpClient.get('http://localhost:8080/scientificField/options/'.concat(this.taskId)).subscribe(
-    //   (response: any) => {
-    //     this.scientificFields = response;
-    //   });
-
-    // this.httpClient.get('http://localhost:8080/timeOptions/'.concat(this.taskId)).subscribe(
-    //   (response: any) => {
-    //     this.timeOptions = Object.keys(response);
-    //   });
-
   }
 
   cleanUp() {
@@ -127,15 +118,16 @@ export class GenerateFormV2Component implements OnInit {
         url = 'http://localhost:8080/chooseMagazine/';
         break;
     }
-    url = url.concat(this.formFieldsDto.taskId); debugger
+    url = url.concat(this.formFieldsDto.taskId); 
     this.httpClient.post(url, dto).subscribe(
       (response: any) => { 
-        this.router.navigate(['/']);
+        window.location.reload();
       },
       (error) => {
         alert(error.message);
       }
     );
+    this.router.navigate(['/']);
   }
 
   handleFileInput(file: FileList) {

@@ -22,7 +22,8 @@ export class AuthService {
       map(u => {
         if (user) {
           localStorage.setItem('username', user.username);
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('currentUser', JSON.stringify(u));
+          localStorage.setItem('authToken', JSON.stringify(u));
         }
       })
     );
@@ -33,7 +34,8 @@ export class AuthService {
       success => {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('username');
-        this.router.navigate(['/']); debugger
+        localStorage.removeItem('authToken');
+        this.router.navigate(['/']);
       },
       error => {
         alert('Logout error!');

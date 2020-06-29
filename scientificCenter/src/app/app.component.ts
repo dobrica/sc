@@ -23,7 +23,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.tasks = [];
-    this.httpClient.get('http://localhost:8080/tasks').subscribe(
+    this.username = this.auth.getCurrentUser(); 
+    this.httpClient.get('http://localhost:8080/tasks/'.concat(this.username)).subscribe(
       (response: any) => { 
         this.tasks = response;
         this.tasks.forEach((field) => { 
@@ -32,7 +33,6 @@ export class AppComponent implements OnInit {
       },
       (error) => { alert(error.message); }
     );
-    this.username = this.auth.getCurrentUser(); debugger
   }
 
   getTask(event){
@@ -41,13 +41,13 @@ export class AppComponent implements OnInit {
     console.log("TASK: "+target.attributes.id.value);
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
       this.router.navigate(['form/v2/'.concat(target.attributes.id.value)]);
-
     this.ngOnInit();
   });
   }
 
   logout(){
     this.auth.logout(); 
+    window.location.reload();
   }
 
 }

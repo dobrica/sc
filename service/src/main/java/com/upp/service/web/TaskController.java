@@ -38,27 +38,16 @@ public class TaskController {
     @Autowired
     IdentityService identityService;
 
-    @GetMapping(path = "/tasks/{processInstanceId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Task>> get(@PathVariable String processInstanceId) {
-
-        List<org.camunda.bpm.engine.task.Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
-        List<Task> response = new ArrayList<Task>();
-        for (org.camunda.bpm.engine.task.Task task : tasks) {
-            Task t = new Task(task.getId(), task.getName(), task.getAssignee());
-            response.add(t);
-        }
-
-        return new ResponseEntity(response,  HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/tasks", produces = "application/json")
-    public ResponseEntity<List<Task>> getTasks() {
+    @GetMapping(path = "/tasks/{username}", produces = "application/json")
+    public ResponseEntity<List<Task>> getTasks(@PathVariable String username) {
         List<Task> tasks = new ArrayList<>();
         List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().active().list();
         for (ProcessInstance p: processInstances) {
             List<org.camunda.bpm.engine.task.Task> processTasks = taskService.createTaskQuery().processInstanceId(p.getId()).list();
             for (org.camunda.bpm.engine.task.Task t: processTasks) {
-                tasks.add(new Task(t.getId(), t.getName(), t.getAssignee()));
+                if (username.equals(t.getAssignee())){
+                    tasks.add(new Task(t.getId(), t.getName(), t.getAssignee()));
+                }
             }
         }
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);

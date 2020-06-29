@@ -98,13 +98,13 @@ public class MagazineController {
     public ResponseEntity<FormFields> getForm(HttpServletRequest request){
 
         ProcessInstance pi = runtimeService.startProcessInstanceByKey("ProcessText");
-
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
-        TaskFormData tfd = formService.getTaskFormData(task.getId());
-        List<FormField> properties = tfd.getFormFields();
         String name = Utils.getUsernameFromRequest(request, tokenUtils);
         runtimeService.setVariable(pi.getId(), "username", name);
-        runtimeService.setVariable(pi.getId(), "initiator", name);
+        taskService.setAssignee(task.getId(), name);
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+
         List<Magazine> magazines = magazineDBService.findAllMagazines();
         for(FormField field : properties){
             if(field.getId().equals("magazine")){
@@ -128,9 +128,6 @@ public class MagazineController {
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
 
-        String name = Utils.getUsernameFromRequest(request, tokenUtils);
-        runtimeService.setVariable(processId, "username", name);
-        runtimeService.setVariable(processId, "initiator", name);
         List<Magazine> magazines = magazineDBService.findAllMagazines();
         for(FormField field : properties){
             if(field.getId().equals("magazine")){
@@ -151,9 +148,6 @@ public class MagazineController {
         HashMap<String, Object> map = Utils.mapListToDto(magazine);
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
-
-        String name = Utils.getUsernameFromRequest(request, tokenUtils);
-        runtimeService.setVariable(processInstanceId, "username", name);
 
         formService.submitTaskForm(taskId, map);
         boolean isOpenAccess = (boolean) runtimeService.getVariable(processInstanceId, "isOpenAccess");

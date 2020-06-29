@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth/auth.service';
 import { User } from '../types/user';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private route: ActivatedRoute,
+    private client: HttpClient,
     private router: Router,
-    private client: HttpClient
   ) { }
 
   ngOnInit() {
@@ -35,11 +32,11 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(user).subscribe(
       (success) => {
-        this.router.navigate(['/']); debugger
-        alert("success");
+        window.location.reload();
       },
       (error) => {
         alert(error);
       });
+    this.router.navigate(['/']);
   }
 }

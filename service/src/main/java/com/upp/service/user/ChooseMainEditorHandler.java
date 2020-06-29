@@ -37,6 +37,7 @@ public class ChooseMainEditorHandler implements JavaDelegate {
         //TODO: send mail, get logged in autor email mail 1, main editor mail 2
         delegateExecution.setVariable("autorEmail", "dobrica21@gmail.com");
         delegateExecution.setVariable("mainEditorEmail","dobrica21@gmail.com");
+        delegateExecution.setVariable("mainEditor","zika");
 //        delegateExecution.setVariable("mainEditorEmail", mainEditor.getEmail());
     }
 
