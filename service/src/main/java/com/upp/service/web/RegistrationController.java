@@ -54,9 +54,7 @@ public class RegistrationController {
     }
 
     @GetMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody FormFields get() { // TODO: @ResponseBody remove ?!
-        //provera da li korisnik sa id-jem pera postoji //TODO: check?!
-        //List<User> users = identityService.createUserQuery().userId("pera").list();
+    public @ResponseBody FormFields get() {
         ProcessInstance pi = runtimeService.startProcessInstanceByKey(registrationProcess);
 
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
@@ -96,7 +94,7 @@ public class RegistrationController {
         Execution execution = runtimeService.createExecutionQuery()
                 .processInstanceId(processInstanceId).activityId("verifikacija").singleResult();
         runtimeService.setVariable(processInstanceId, "userVerificationCode", hashcode);
-        runtimeService.signal(execution.getId()); //TODO: add error handling
+        runtimeService.signal(execution.getId());
         return new RedirectView(registrationSuccess);
     }
 

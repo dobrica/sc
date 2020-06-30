@@ -21,9 +21,7 @@ public class CreateMagazineHandler implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         Magazine magazine = new Magazine();
         magazine.setIssn(String.valueOf(new Random().nextInt(8)));
-        //TODO: complete magazine creation and integration with camunda
-        //TODO: set magazine status to inactive
-        delegateExecution.setVariable("mainEditor", "demo"); //TODO: set editor that started process
+        delegateExecution.setVariable("mainEditor", "demo");
         log.info("Creating new magazine: {}", magazine.getIssn());
     }
 

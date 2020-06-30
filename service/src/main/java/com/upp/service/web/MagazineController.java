@@ -4,9 +4,7 @@ import com.upp.service.camunda.Utils;
 import com.upp.service.camunda.model.FormFields;
 import com.upp.service.camunda.model.FormSubmission;
 import com.upp.service.magazine.MagazineService;
-import com.upp.service.model.Magazine;
-import com.upp.service.model.MagazineDBService;
-import com.upp.service.model.SubscriptionResponse;
+import com.upp.service.model.*;
 import com.upp.service.security.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.*;
@@ -54,12 +52,13 @@ public class MagazineController {
     MagazineDBService magazineDBService;
 
     @Autowired
+    UserDBService userDBService;
+
+    @Autowired
     TokenUtils tokenUtils;
 
     @GetMapping(path = "/magazine/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public FormFields get() { // TODO: @ResponseBody ???
-        //provera da li korisnik sa id-jem pera postoji //TODO: check?!
-        //List<User> users = identityService.createUserQuery().userId("pera").list();
+    public FormFields get() {
         ProcessInstance pi = runtimeService.startProcessInstanceByKey(newMagazineProcess);
 
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
@@ -162,9 +161,7 @@ public class MagazineController {
         String processInstanceId = task.getProcessInstanceId();
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-        List<String> reviewerOptions = new ArrayList<>();
-        reviewerOptions.add("djordje");
-        reviewerOptions.add("zika");
+        List<String> reviewerOptions = userDBService.usernamesWithRole("REVIEWER");
         for(FormField field : properties){
             if(field.getId().equals("reviewer")){
                 Map<String, String> enumType = ((EnumFormType) field.getType()).getValues();
@@ -194,16 +191,11 @@ public class MagazineController {
         String processInstanceId = task.getProcessInstanceId();
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-        List<String> reviewOptions = new ArrayList<>();
-        reviewOptions.add("Predlazem da rad bude prihvacen!");
-        reviewOptions.add("Predlazem da rad bude odbijen!");
-        reviewOptions.add("Predlazem da rad bude prihvacen uz manje izmene!");
-        reviewOptions.add("Predlazem da rad bude prihvacen uz vece izmene!");
         for(FormField field : properties){
             if(field.getId().equals("recommendation")){
                 Map<String, String> enumType = ((EnumFormType) field.getType()).getValues();
                 enumType.clear();
-                for(String r: reviewOptions){
+                for(String r: OptionsRepository.reviewOptions){
                     enumType.put(r, r);
                 }
                 runtimeService.setVariable(processInstanceId,"reviewOptions", enumType);

@@ -7,8 +7,7 @@ public class UserService implements ExecutionListener {
 
     @Override
     public void notify(DelegateExecution delegateExecution) throws Exception {
-        var isSubscriptionPaid = delegateExecution.getVariable("subscriptionPaid"); // TODO: call service (mock), get info
-        // update according to service call
+        var isSubscriptionPaid = delegateExecution.getVariable("subscriptionPaid");
         delegateExecution.setVariable("hasActiveSubscription", isSubscriptionPaid);
     }
 

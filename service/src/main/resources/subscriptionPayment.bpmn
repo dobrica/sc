@@ -2,7 +2,7 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0c0i3lr" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
   <bpmn:process id="subscriptionPayment" name="SubscriptionPayment" isExecutable="true">
     <bpmn:endEvent id="EndEvent_06hkael">
-      <bpmn:incoming>SequenceFlow_0di0x5d</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_16eelb4</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:userTask id="UserTask_1e2ns3p" name="Uplati clanarinu" camunda:assignee="${username}">
       <bpmn:extensionElements>
@@ -13,8 +13,6 @@
             </camunda:validation>
           </camunda:formField>
         </camunda:formData>
-        <camunda:executionListener class="com.upp.service.payment.PaymentHandler" event="end" />
-        <camunda:executionListener class="com.upp.service.payment.PreparePaymentHandler" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0a4akvu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0di0x5d</bpmn:outgoing>
@@ -22,13 +20,18 @@
     <bpmn:startEvent id="StartEvent_0x6bdyt">
       <bpmn:outgoing>SequenceFlow_0a4akvu</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0di0x5d" sourceRef="UserTask_1e2ns3p" targetRef="EndEvent_06hkael" />
+    <bpmn:sequenceFlow id="SequenceFlow_0di0x5d" sourceRef="UserTask_1e2ns3p" targetRef="Task_1xntl52" />
     <bpmn:sequenceFlow id="SequenceFlow_0a4akvu" sourceRef="StartEvent_0x6bdyt" targetRef="UserTask_1e2ns3p" />
+    <bpmn:sequenceFlow id="SequenceFlow_16eelb4" sourceRef="Task_1xntl52" targetRef="EndEvent_06hkael" />
+    <bpmn:serviceTask id="Task_1xntl52" name="Azuriraj korisnika" camunda:class="com.upp.service.payment.PaymentHandler">
+      <bpmn:incoming>SequenceFlow_0di0x5d</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16eelb4</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="subscriptionPayment">
       <bpmndi:BPMNShape id="EndEvent_06hkael_di" bpmnElement="EndEvent_06hkael">
-        <dc:Bounds x="412" y="102" width="36" height="36" />
+        <dc:Bounds x="562" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_1e2ns3p_di" bpmnElement="UserTask_1e2ns3p">
         <dc:Bounds x="250" y="80" width="100" height="80" />
@@ -38,12 +41,19 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0di0x5d_di" bpmnElement="SequenceFlow_0di0x5d">
         <di:waypoint x="350" y="120" />
-        <di:waypoint x="412" y="120" />
+        <di:waypoint x="400" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0a4akvu_di" bpmnElement="SequenceFlow_0a4akvu">
         <di:waypoint x="196" y="120" />
         <di:waypoint x="250" y="120" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16eelb4_di" bpmnElement="SequenceFlow_16eelb4">
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="562" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0okothz_di" bpmnElement="Task_1xntl52">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

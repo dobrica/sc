@@ -34,27 +34,31 @@ FIRSTNAME VARCHAR, LASTNAME VARCHAR, TITLE VARCHAR, CITY VARCHAR, STATE VARCHAR,
 CREATE TABLE PUBLIC.SCIENTIFIC_PAPER_ENTITY_COAUTHORS (SCIENTIFIC_PAPER_ENTITY_ID VARCHAR NOT NULL, USER_IDS VARCHAR NOT NULL);
 
 CREATE TABLE PUBLIC.SCIENTIFIC_PAPER
-(ID VARCHAR NOT NULL, TITLE VARCHAR, ABSTRACT VARCHAR, KEYWORDS VARCHAR, FEE NUMERIC,
+(ID VARCHAR NOT NULL, DOI VARCHAR, TITLE VARCHAR, ABSTRACT VARCHAR, KEYWORDS VARCHAR, FEE NUMERIC,
 PDF_NAME VARCHAR, PDF BLOB, SCIENTIFIC_FIELD VARCHAR, MAGAZINE_ID VARCHAR);
 
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m123', 'magazine123', true, 'perica');
+values ('m123', 'CasopisMat1', true, 'perica');
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m124', 'magazine234', false, 'zika');
+values ('m124', 'CasopisMat2', false, 'zika');
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m125', 'magazine345', true, 'djordje');
+values ('m125', 'CasopisFiz1', true, 'djordje');
 
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
-values ('u123', '', 'perica', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
+values ('u123', 'bccservistim17@gmail.com', 'perica', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
-values ('u124', '', 'zika', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
+values ('u124', 'bccservistim17@gmail.com', 'zika', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, true);
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
-values ('u125', '', 'djordje', '123', true, true, false);
+values ('u125', 'bccservistim17@gmail.com', 'djordje', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
-values ('u126', '', 'dobrica', '123', true, true, false);
+values ('u126', 'bccservistim17@gmail.com', 'dobrica', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', false, false, false);
+insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
+values ('u127', 'bccservistim17@gmail.com', 'marko', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, false, false);
+insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
+values ('u128', 'bccservistim17@gmail.com', 'pavle', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, false, false);
 
 insert into user_entity_scientific_fields(USER_ENTITY_ID, scientific_fields)
 values ('u123', '1,2,3');
 
-insert into scientific_paper(id, title, abstract, keywords, fee, pdf_name, pdf, scientific_field, magazine_id)
-values ('sp123', 'rad1', 'sazetak123', 'kw1', 100.00, 'pdf1', null, 'Matematika', 'm123');
+insert into scientific_paper(id, doi, title, abstract, keywords, fee, pdf_name, pdf, scientific_field, magazine_id)
+values ('sp123', '123', 'rad1', 'sazetak123', 'kw1', 100.00, 'pdf1', null, 'Matematika', 'm123');

@@ -15,12 +15,9 @@ public class PaymentHandler implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-//        Boolean paymentStatus = (Boolean) delegateExecution.getVariable("isPaymentSuccessful");
-//        String username = (String) delegateExecution.getProcessInstance().getVariable("username");
-        Boolean paymentStatus = true;
-        String username = "perica";
+        String username = (String) delegateExecution.getVariable("username");
         User user = userDBService.findUserByUsername(username);
-        user.setSubscriptionStatus(paymentStatus);
+        user.setSubscriptionStatus(true);
         userDBService.saveUser(user);
     }
 

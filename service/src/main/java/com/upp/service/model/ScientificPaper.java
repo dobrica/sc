@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ScientificPaper implements Serializable {
     private String id;
+    private String DOI;
     private String title;
     private String abstrct;
     private String keywords;

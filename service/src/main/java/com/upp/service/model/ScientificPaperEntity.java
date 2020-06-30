@@ -21,6 +21,9 @@ public class ScientificPaperEntity implements Serializable {
     @Column(name = "ID", nullable = false)
     private String id;
 
+    @Column(name = "DOI")
+    private String doi;
+
     @Column(name = "TITLE")
     private String title;
 
@@ -50,9 +53,10 @@ public class ScientificPaperEntity implements Serializable {
     @Column(name = "coauthors")
     private List<String> coauthors;
 
-    public ScientificPaperEntity(String id, String title, String abstrct, String keywords,
+    public ScientificPaperEntity(String id, String DOI, String title, String abstrct, String keywords,
                                  double fee, String pdfName, byte[] pdf, String scientificField, String magazineId) {
         this.id = id;
+        this.doi = DOI;
         this.title = title;
         this.abstrct = abstrct;
         this.keywords = keywords;

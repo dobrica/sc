@@ -26,6 +26,7 @@ public class ScientificPaperDBService implements IScientificPaperService {
                 .stream()
                 .map(spe -> new ScientificPaper(
                         spe.getId(),
+                        spe.getDoi(),
                         spe.getTitle(),
                         spe.getAbstrct(),
                         spe.getKeywords(),
@@ -42,6 +43,7 @@ public class ScientificPaperDBService implements IScientificPaperService {
     public void saveScientificPaper(ScientificPaper sp) {
         scientificPaperRepository.save(new ScientificPaperEntity(
                 sp.getId(),
+                sp.getDOI(),
                 sp.getTitle(),
                 sp.getAbstrct(),
                 sp.getKeywords(),
@@ -55,12 +57,34 @@ public class ScientificPaperDBService implements IScientificPaperService {
     @Override
     public void savePdf(String id, MultipartFile pdf) {
         ScientificPaper sp = findScientificPaperById(id);
+
+        if (sp == null) {
+            sp = new ScientificPaper();
+            sp.setId(id);
+        }
+
         try {
             sp.setPdf(pdf.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
         saveScientificPaper(sp);
+    }
+
+    @Override
+    public void deleteScientificPaper(String id) {
+        ScientificPaper sp = findScientificPaperById(id);
+        scientificPaperRepository.delete(new ScientificPaperEntity(
+                sp.getId(),
+                sp.getDOI(),
+                sp.getTitle(),
+                sp.getAbstrct(),
+                sp.getKeywords(),
+                sp.getFee(),
+                sp.getPdfName(),
+                sp.getPdf(),
+                sp.getScientificField(),
+                sp.getMagazineId()));
     }
 
     @Override

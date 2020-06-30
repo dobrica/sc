@@ -16,7 +16,7 @@ public class UpdateMagazineHandler implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        log.info("Updating magazine: {}", "TEST_MAGAZINE"); //TODO: print issn
+        log.info("Updating magazine: {}", "TEST_MAGAZINE");
     }
 
 }

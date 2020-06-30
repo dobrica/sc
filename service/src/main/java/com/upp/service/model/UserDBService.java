@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,6 +66,40 @@ public class UserDBService implements IUserService {
             }
         }
         return null;
+    }
+
+    public List<User> getUsersByRole(String role) {
+        List<User> usersWithRole = new ArrayList<>();
+        List<User> allUsers = findAllUsers();
+        for (User u: allUsers) {
+            if (u.getIsEditor() && role.equals("EDITOR")) {
+                usersWithRole.add(u);
+            }
+            if (u.getIsReviewer() && role.equals("REVIEWER")) {
+                usersWithRole.add(u);
+            }
+        }
+        return usersWithRole;
+    }
+
+    public List<String> usernamesWithRole(String role){
+        List<String> usernames = new ArrayList<>();
+        for (User u: getUsersByRole(role)) {
+            usernames.add(u.getUsername());
+        }
+        return usernames;
+    }
+
+    public User getRandomEditorExcludingMagazineMainEditor(User mainEditor){
+        List<User> availableEditors = new ArrayList<>();
+        for (User u: findAllUsers()) {
+            if (u.getIsEditor() && !u.getUsername().equals(mainEditor.getUsername())){
+                availableEditors.add(u);
+            }
+        }
+        Random r = new Random();
+        int randomIndex = r.nextInt(availableEditors.size());
+        return availableEditors.get(randomIndex);
     }
 
 }

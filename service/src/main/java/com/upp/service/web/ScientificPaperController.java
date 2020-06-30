@@ -19,7 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ScientificPaperController {
@@ -55,20 +58,16 @@ public class ScientificPaperController {
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
         Magazine magazine = magazineDBService.findMagazineById((String) runtimeService.getVariable(processId, "magazine"));
-        List<String> scienceFields = new ArrayList<>();
-        scienceFields.add("Matematika");
-        scienceFields.add("Fizika");
-        scienceFields.add("Hemija");
         for (FormField field : properties) {
             if (field.getId().equals("scientificField")) {
                 Map<String, String> enumType = ((EnumFormType) field.getType()).getValues();
                 enumType.clear();
-                for (String scienceField : scienceFields) {
+                for (String scienceField : OptionsRepository.scienceFields) {
                     enumType.put(scienceField, scienceField);
                 }
             }
         }
-        runtimeService.setVariable(processId, "scientificFields", scienceFields);
+        runtimeService.setVariable(processId, "scientificFields", OptionsRepository.scienceFields);
         return new ResponseEntity<>(new FormFields(task.getId(), task.getName(), processId, properties), HttpStatus.OK);
     }
 
@@ -76,12 +75,8 @@ public class ScientificPaperController {
     public ResponseEntity<List<String>> getScientificFieldOptions(@PathVariable("taskId") String taskId) {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
-        List<String> scientificFields = new ArrayList<>();
-        scientificFields.add("Matematika");
-        scientificFields.add("Fizika");
-        scientificFields.add("Hemija");
-        runtimeService.setVariable(processInstanceId, "scientificFields", scientificFields);
-        return new ResponseEntity<>(scientificFields, HttpStatus.OK);
+        runtimeService.setVariable(processInstanceId, "scientificFields", OptionsRepository.scienceFields);
+        return new ResponseEntity<>(OptionsRepository.scienceFields, HttpStatus.OK);
     }
 
     @PostMapping(value = "/paperDetails/create/{taskId}", produces = "application/json", consumes = "application/json")
@@ -89,13 +84,6 @@ public class ScientificPaperController {
         HashMap<String, Object> map = Utils.mapListToDto(paperDetails);
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
-//        SciencePaper sciencePaper = new SciencePaper();
-//        sciencePaper.setPdfName(Utils.getFormFieldValue(sciencePaperData, "pdf"));
-//        sciencePaper = sciencePaperService.save(sciencePaper);
-
-//        runtimeService.setVariable(processInstanceId, "sciencePaperData", sciencePaperData);
-//        runtimeService.setVariable(processInstanceId, "sciencePaperId", sciencePaper.getId());
-//        runtimeService.setVariable(processInstanceId, "coauthorList", new ArrayList<Coauthor>());
 
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(true, HttpStatus.OK);
@@ -172,21 +160,12 @@ public class ScientificPaperController {
 
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-        Map<String, String> timeOptions = new LinkedHashMap<>();
-        timeOptions.put("PT1M", "1 minut");
-        timeOptions.put("PT15M", "15 minuta");
-        timeOptions.put("PT30M", "30 minuta");
-        timeOptions.put("PT1H", "1 sat");
-        timeOptions.put("P7D", "7 dana");
-        timeOptions.put("P30D", "30 dana");
-        timeOptions.put("P60D", "60 dana");
-        timeOptions.put("P90D", "90 dana");
         List<User> coauthors = (ArrayList) runtimeService.getVariable(processId, "coauthors");
         for (FormField field : properties) {
             if (field.getId().equals("reviewDuration")) {
                 Map<String, String> enumType = ((EnumFormType) field.getType()).getValues();
                 enumType.clear();
-                timeOptions.forEach((k, v) -> enumType.put(k, v));
+                OptionsRepository.timeOptions.forEach((k, v) -> enumType.put(k, v));
                 runtimeService.setVariable(processId,"timeOptions", enumType);
             }
         }
@@ -205,7 +184,6 @@ public class ScientificPaperController {
 
     @PutMapping(value = "/scientificPaper/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> savePdf(@RequestParam("file") MultipartFile file , @PathVariable("id") String scientificPaperId){
-        List<ScientificPaper> spl = scientificPaperDBService.findAllScientificPapers();
         scientificPaperDBService.savePdf(scientificPaperId, file);
         return new ResponseEntity<>("Upload successful!", HttpStatus.OK);
     }

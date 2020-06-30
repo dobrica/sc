@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +23,7 @@ export class ValidationService {
           || form.controls[field.id].value == null
           || form.controls[field.id].value == undefined) {
             isValid = false; 
-            let c = form.controls[field.id];
-            console.log(form.controls[field.id].status);
             form.controls[field.id].setErrors({'required': true});
-            form.controls[field.id].markAsTouched();
-            c = form.controls[field.id]; 
-            console.log(form.controls[field.id].status);
             alert(field.label + ' je obavezno polje!');
           }
         }

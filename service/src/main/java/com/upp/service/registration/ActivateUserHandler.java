@@ -13,8 +13,6 @@ public class ActivateUserHandler implements JavaDelegate {
     @Autowired
     IdentityService identityService;
 
-    // TODO: implement RegistrationService
-
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         String username = getVariableAsString(delegateExecution.getVariable("username"));

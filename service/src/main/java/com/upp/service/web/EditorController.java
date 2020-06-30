@@ -3,6 +3,7 @@ package com.upp.service.web;
 import com.upp.service.camunda.Utils;
 import com.upp.service.camunda.model.FormFields;
 import com.upp.service.camunda.model.FormSubmission;
+import com.upp.service.model.OptionsRepository;
 import com.upp.service.model.User;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
@@ -31,24 +32,6 @@ public class EditorController {
     @Autowired
     private RuntimeService runtimeService;
 
-//        timeOptions.put("PT1M", "1 minut");
-//        timeOptions.put("PT15M", "15 minuta");
-//        timeOptions.put("PT30M", "30 minuta");
-//        timeOptions.put("PT1H", "1 sat");
-//        timeOptions.put("P7D", "7 dana");
-//        timeOptions.put("P30D", "30 dana");
-//        timeOptions.put("P60D", "60 dana");
-//        timeOptions.put("P90D", "90 dana");
-
-//        timeOptions.put("1 minut", "PT1M");
-//        timeOptions.put("15 minuta", "PT15M");
-//        timeOptions.put("30 minuta", "PT30M");
-//        timeOptions.put("1 sat", "PT1H");
-//        timeOptions.put("7 dana", "P7D");
-//        timeOptions.put("30 dana", "P30D");
-//        timeOptions.put("60 dana", "P60D");
-//        timeOptions.put("90 dana", "P90D");
-
     @GetMapping(value = "/editor/review/{taskId}", produces = "application/json")
     public ResponseEntity<FormFields> getForm(@PathVariable("taskId") String taskId) {
 
@@ -65,15 +48,6 @@ public class EditorController {
 
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();
-        Map<String, String> timeOptions = new LinkedHashMap<>();
-        timeOptions.put("PT1M", "1 minut");
-        timeOptions.put("PT15M", "15 minuta");
-        timeOptions.put("PT30M", "30 minuta");
-        timeOptions.put("PT1H", "1 sat");
-        timeOptions.put("P7D", "7 dana");
-        timeOptions.put("P30D", "30 dana");
-        timeOptions.put("P60D", "60 dana");
-        timeOptions.put("P90D", "90 dana");
         List<User> coauthors = (ArrayList) runtimeService.getVariable(processId, "coauthors");
         for (FormField field : properties) {
             if (field.getId().equals("checkCoauthors")) {
@@ -85,7 +59,7 @@ public class EditorController {
             if (field.getId().equals("correctionDuration")) {
                 Map<String, String> enumType = ((EnumFormType) field.getType()).getValues();
                 enumType.clear();
-                timeOptions.forEach((k, v) -> enumType.put(k, v));
+                OptionsRepository.timeOptions.forEach((k, v) -> enumType.put(k, v));
                 runtimeService.setVariable(processId,"timeOptions", enumType);
             }
         }

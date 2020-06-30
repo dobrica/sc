@@ -45,8 +45,8 @@ public class MockPaymentController {
         HashMap<String, Object> map = Utils.mapListToDto(paymentConfirmation);
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
-        Boolean paymentStatus = true; // get from req. is true or false paymentConfirmation
-        runtimeService.setVariable(processInstanceId,"isPaymentSuccessful", paymentStatus);
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

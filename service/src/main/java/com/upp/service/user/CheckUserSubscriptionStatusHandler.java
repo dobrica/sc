@@ -15,8 +15,7 @@ public class CheckUserSubscriptionStatusHandler implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-//        String username = (String) delegateExecution.getProcessInstance().getVariable("username");
-        String username = "perica";
+        String username = (String) delegateExecution.getProcessInstance().getVariable("username");
         User user = userDBService.findUserByUsername(username);
         delegateExecution.setVariable("hasActiveSubscription", user.getSubscriptionStatus());
     }

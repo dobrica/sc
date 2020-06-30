@@ -58,15 +58,13 @@ public class TaskController {
     }
 
     @GetMapping(path = "/task/{taskId}", produces = "application/json")
-    public @ResponseBody FormFields getTask(@PathVariable String taskId) { //TODO: make it less complicated
+    public @ResponseBody FormFields getTask(@PathVariable String taskId) {
         if(taskId.equals("newProcess")){
             return new FormFields(null, "newProcess", null, null);
         }
 
-        // list all running/unsuspended instances of the process
         List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-                //.processDefinitionKey("RegistrationProcess") TODO: in order to optimize search add this
-                .active() // we only want the unsuspended process instances
+                .active()
                 .list();
 
         ProcessInstance processInstance = null;
@@ -94,29 +92,22 @@ public class TaskController {
     public ResponseEntity<String> submit(@RequestBody List<FormSubmission> request, @PathVariable("taskId") String taskId){
         HashMap<String, Object> map = Utils.mapListToDto(request);
         org.camunda.bpm.engine.task.Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-        String id = "";
-        if(task.getName().equals("Unesi podatke o naucnom radu")) {
-            id = UUID.randomUUID().toString();
-            ScientificPaper sp = new ScientificPaper();
-            sp.setId(id);
-            TaskFormData tfd = formService.getTaskFormData(task.getId());
-            for(FormSubmission f: request){
-                if(f.getFieldId().equals("title")){
-                    sp.setTitle(f.getFieldValue());
-                }
-                if(f.getFieldId().equals("keywords")){
-                    sp.setKeywords(f.getFieldValue());
-                }
-                sp.setPdf(null);
-                sp.setAbstrct("");
-                sp.setPdfName("");
-                sp.setFee(100);
-                sp.setMagazineId("m123");
-                sp.setScientificField("");
-            }
-            scientificPaperDBService.saveScientificPaper(sp);
+        String processId = "";
+
+        if (task == null) {
+            ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(taskId).singleResult();
+            processId = pi.getId();
+            task = taskService.createTaskQuery().processInstanceId(taskId).singleResult();
+        } else {
+            processId = task.getProcessInstanceId();
+        }
+
+        String spId = (String) runtimeService.getVariable(processId, "spId");
+        if(task.getName().equals("Unesi podatke o naucnom radu") && (spId == null || spId.equals(""))) {
+            spId = UUID.randomUUID().toString();
+            runtimeService.setVariable(processId, "spId", spId);
         }
         formService.submitTaskForm(taskId, map);
-        return new ResponseEntity<String>(id, HttpStatus.OK);
+        return new ResponseEntity<String>(spId, HttpStatus.OK);
     }
 }
