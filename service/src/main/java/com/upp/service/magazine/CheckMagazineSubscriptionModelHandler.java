@@ -14,6 +14,10 @@ public class CheckMagazineSubscriptionModelHandler implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
+        delegateExecution.setVariable("reviewerAuthorComment", "");
+        delegateExecution.setVariable("reviewerEditorComment", "");
+        delegateExecution.setVariable("recommendations", "");
+        delegateExecution.setVariable("authorComment", "");
         String magazineIssn = (String) delegateExecution.getProcessInstance().getVariable("magazine");
         Magazine magazine = magazineDBService.findMagazineById(magazineIssn);
         delegateExecution.setVariable("isOpenAccess", magazine.getIsOpenAccess());

@@ -63,6 +63,9 @@
     <bpmn:userTask id="Task_18dhjer" name="Zadatak urednika" camunda:assignee="${mainEditor}">
       <bpmn:extensionElements>
         <camunda:formData>
+          <camunda:formField id="reviewerEditorComment" label="Komentari recenzenata" type="string" defaultValue="${reviewerEditorComment}" />
+          <camunda:formField id="chAuthorComment" label="Komentar autora" type="string" defaultValue="${authorComment}" />
+          <camunda:formField id="reviewersRecommendations" label="Ocene recenzenata" type="string" defaultValue="${recommendations}" />
           <camunda:formField id="checkTitle" label="Naslov" type="string" defaultValue="${title}" />
           <camunda:formField id="checkApstract" label="Sazetak" type="string" defaultValue="${apstract}" />
           <camunda:formField id="checkScientificField" label="Naucna oblast" type="string" defaultValue="${scientificField}" />
@@ -111,11 +114,13 @@
     <bpmn:userTask id="Task_0i58f6o" name="Autorska dorada rada" camunda:assignee="${username}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="editorComment" label="Potrebne ispravke" type="string" defaultValue="${crDescription}" />
+          <camunda:formField id="reviewerComment" label="Komentar recenzenta" type="string" defaultValue="${reviewerAuthorComment}" />
+          <camunda:formField id="editorComment" label="Komentar urednika" type="string" defaultValue="${crDescription}" />
           <camunda:formField id="new_title" label="Naslov" type="string" defaultValue="${title}" />
           <camunda:formField id="new_apstract" label="Sazetak" type="string" defaultValue="${apstract}" />
           <camunda:formField id="new_keywords" label="Kljucne reci" type="string" defaultValue="${keywords}" />
           <camunda:formField id="new_pdf" label="PDF" type="string" defaultValue="${pdf}" />
+          <camunda:formField id="authorComment" label="Komentar" type="string" />
         </camunda:formData>
         <camunda:executionListener class="com.upp.service.user.ChangesHandler" event="end" />
       </bpmn:extensionElements>
@@ -190,12 +195,8 @@
     <bpmn:userTask id="Task_0trn0gc" name="Recenzije" camunda:assignee="${r.username}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="commentForAuthor" label="Komentar" type="string">
-            <camunda:validation>
-              <camunda:constraint name="required" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="recommendation" label="Preporuka" type="enum">
+          <camunda:formField id="rwAuthorComment" label="Komentar autora" type="string" defaultValue="${authorComment}" />
+          <camunda:formField id="commentForAuthor" label="Komentar za autora" type="string">
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
@@ -205,7 +206,13 @@
               <camunda:constraint name="required" />
             </camunda:validation>
           </camunda:formField>
+          <camunda:formField id="recommendation" label="Preporuka" type="enum">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
+        <camunda:executionListener class="com.upp.service.user.CommentsSumHandler" event="end" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0tvot5u</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1pvxfsn</bpmn:outgoing>
@@ -213,6 +220,9 @@
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_021vh81" sourceRef="IntermediateThrowEvent_0fb2xmj" targetRef="Task_1ixjcpa" />
     <bpmn:boundaryEvent id="IntermediateThrowEvent_0fb2xmj" attachedToRef="Task_0trn0gc">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.upp.service.user.ReviewersNumberHandler" event="start" />
+      </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_021vh81</bpmn:outgoing>
       <bpmn:timerEventDefinition>
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">${reviewDuration}</bpmn:timeDuration>
@@ -377,7 +387,7 @@
           <camunda:inputOutput>
             <camunda:inputParameter name="to">${editorEmail}</camunda:inputParameter>
             <camunda:inputParameter name="subject">Neophodno je da izaberete novog recenzenta!</camunda:inputParameter>
-            <camunda:inputParameter name="text">Neophodno je da izaberete novog recenzenta ${r.username} je nije ispunio vremenski rok!</camunda:inputParameter>
+            <camunda:inputParameter name="text">Recenzenta je nije ispunio vremenski rok. Neophodno je da izaberete novog!</camunda:inputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>mail-send</camunda:connectorId>
         </camunda:connector>

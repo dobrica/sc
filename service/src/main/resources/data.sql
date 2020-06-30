@@ -38,11 +38,11 @@ CREATE TABLE PUBLIC.SCIENTIFIC_PAPER
 PDF_NAME VARCHAR, PDF BLOB, SCIENTIFIC_FIELD VARCHAR, MAGAZINE_ID VARCHAR);
 
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m123', 'CasopisMat1', true, 'perica');
+values ('m123', 'Časopis 1', true, 'perica');
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m124', 'CasopisMat2', false, 'zika');
+values ('m124', 'Časopis 2', false, 'zika');
 insert into magazine(issn, title, is_open_access, main_editor)
-values ('m125', 'CasopisFiz1', true, 'djordje');
+values ('m125', 'Časopis 3', true, 'djordje');
 
 insert into user(id, email, username, password, is_reviewer, is_editor, subscription_status)
 values ('u123', 'bccservistim17@gmail.com', 'perica', '$2a$10$3ziaaq0vEUtDNdh4FtOsk.wZKThjO1.reKO.5ELAiSEQoyfL5Neqi', true, true, false);
