@@ -32,11 +32,15 @@ public class User implements Serializable, UserDetails {
     private Boolean isEditor;
     private Boolean subscriptionStatus;
 
-    public User(String id, String email, String username, String password, Boolean isReviewer, Boolean isEditor, Boolean subscriptionStatus) {
+    public User(String id, String fistname, String lastname, String email, String username, String password, String city, String state, Boolean isReviewer, Boolean isEditor, Boolean subscriptionStatus) {
         this.id = id;
+        this.fistname = fistname;
+        this.lastname = lastname;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.city = city;
+        this.state = state;
         this.isReviewer = isReviewer;
         this.isEditor = isEditor;
         this.subscriptionStatus = subscriptionStatus;

@@ -35,7 +35,7 @@ public class ScientificPaperDBService implements IScientificPaperService {
                         spe.getPdf(),
                         spe.getScientificField(),
                         spe.getMagazineId(),
-                        spe.getCoauthors()
+                        mapCoauthors(spe)
                 )).collect(Collectors.toList());
     }
 
@@ -51,7 +51,8 @@ public class ScientificPaperDBService implements IScientificPaperService {
                 sp.getPdfName(),
                 sp.getPdf(),
                 sp.getScientificField(),
-                sp.getMagazineId()));
+                sp.getMagazineId(),
+                mapCoauthorEntities(sp)));
     }
 
     @Override
@@ -84,7 +85,44 @@ public class ScientificPaperDBService implements IScientificPaperService {
                 sp.getPdfName(),
                 sp.getPdf(),
                 sp.getScientificField(),
-                sp.getMagazineId()));
+                sp.getMagazineId(),
+                mapCoauthorEntities(sp)));
+    }
+
+    private List<User> mapCoauthors(ScientificPaperEntity entity) {
+        return entity.getCoauthors()
+                .stream()
+                .map(ca -> new User(
+                        ca.getId(),
+                        ca.getFistname(),
+                        ca.getLastname(),
+                        ca.getEmail(),
+                        ca.getUsername(),
+                        ca.getPassword(),
+                        ca.getCity(),
+                        ca.getState(),
+                        ca.getIsReviewer(),
+                        ca.getIsEditor(),
+                        ca.getSubscriptionStatus()))
+                .collect(Collectors.toList());
+    }
+
+    private List<UserEntity> mapCoauthorEntities(ScientificPaper scientificPaper) {
+        return scientificPaper.getCoauthors()
+                .stream()
+                .map(ca -> new UserEntity(
+                        ca.getId(),
+                        ca.getFistname(),
+                        ca.getLastname(),
+                        ca.getEmail(),
+                        ca.getUsername(),
+                        ca.getPassword(),
+                        ca.getCity(),
+                        ca.getState(),
+                        ca.getIsReviewer(),
+                        ca.getIsEditor(),
+                        ca.getSubscriptionStatus()))
+                .collect(Collectors.toList());
     }
 
     @Override

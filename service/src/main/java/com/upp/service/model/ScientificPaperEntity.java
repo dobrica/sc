@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -49,21 +50,11 @@ public class ScientificPaperEntity implements Serializable {
     @Column(name = "MAGAZINE_ID")
     private String magazineId;
 
-    @ElementCollection(targetClass = String.class)
-    @Column(name = "coauthors")
-    private List<String> coauthors;
-
-    public ScientificPaperEntity(String id, String DOI, String title, String abstrct, String keywords,
-                                 double fee, String pdfName, byte[] pdf, String scientificField, String magazineId) {
-        this.id = id;
-        this.doi = DOI;
-        this.title = title;
-        this.abstrct = abstrct;
-        this.keywords = keywords;
-        this.fee = fee;
-        this.pdfName = pdfName;
-        this.pdf = pdf;
-        this.scientificField = scientificField;
-        this.magazineId = magazineId;
-    }
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "SCIENTIFIC_PAPER_ENTITY_COAUTHORS",
+            joinColumns = { @JoinColumn(name = "SCIENTIFIC_PAPER_ENTITY_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "USERNAME") }
+    )
+    List<UserEntity> coauthors = new ArrayList<>();
 }

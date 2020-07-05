@@ -24,5 +24,5 @@ public class ScientificPaper implements Serializable {
     private byte[] pdf;
     private String scientificField;
     private String magazineId;
-    private List<String> coauthors = new ArrayList<String>();
+    private List<User> coauthors = new ArrayList<>();
 }

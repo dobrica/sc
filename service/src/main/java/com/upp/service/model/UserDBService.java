@@ -25,9 +25,13 @@ public class UserDBService implements IUserService {
         return userRepository.findAll().stream()
                 .map( u -> new User(
                         u.getId(),
+                        u.getFistname(),
+                        u.getLastname(),
                         u.getEmail(),
                         u.getUsername(),
                         u.getPassword(),
+                        u.getCity(),
+                        u.getState(),
                         u.getIsReviewer(),
                         u.getIsEditor(),
                         u.getSubscriptionStatus()))
@@ -38,9 +42,13 @@ public class UserDBService implements IUserService {
     public void saveUser(User user) {
         userRepository.save(new UserEntity(
                 user.getId(),
+                user.getFistname(),
+                user.getLastname(),
                 user.getEmail(),
                 user.getUsername(),
                 user.getPassword(),
+                user.getCity(),
+                user.getState(),
                 user.getIsReviewer(),
                 user.getIsEditor(),
                 user.getSubscriptionStatus()));
